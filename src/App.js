@@ -28,20 +28,6 @@ export default function App () {
     return () => clearInterval(timer)
   }, [state.startStop])
 
-  useEffect(() => {
-    if (state.timerLabel === 'Session') {
-      setState(state => ({
-        ...state,
-        timeLeft: state.sessionLength * 60,
-      }))
-    } else {
-      setState(state => ({
-        ...state,
-        timeLeft: state.breakLength * 60,
-      }))
-    }
-  }, [state.breakLength, state.sessionLength])
-
   const handleDecrement = (event) => {
     if (state.isTimerRunning) return
     const type = event.target.id.match(/break|session/)[0]
@@ -52,13 +38,25 @@ export default function App () {
           ...state,
           breakLength: state.breakLength - 1,
         }))
+        if (state.timerLabel === 'Break') {
+          setState(state => ({
+            ...state,
+            timeLeft: state.breakLength * 60,
+          }))
+        }
         break
       case 'session':
         if (state.sessionLength === 1) return
-        setState(prev => ({
-          ...prev,
-          sessionLength: prev.sessionLength - 1,
+        setState(state => ({
+          ...state,
+          sessionLength: state.sessionLength - 1,
         }))
+        if (state.timerLabel === 'Session') {
+          setState(state => ({
+            ...state,
+            timeLeft: state.sessionLength * 60,
+          }))
+        }
         break
       default:
     }
@@ -74,6 +72,12 @@ export default function App () {
           ...state,
           breakLength: state.breakLength + 1,
         }))
+        if (state.timerLabel === 'Break') {
+          setState(state => ({
+            ...state,
+            timeLeft: state.breakLength * 60,
+          }))
+        }
         break
       case 'session':
         if (state.sessionLength === 60) return
@@ -81,6 +85,12 @@ export default function App () {
           ...state,
           sessionLength: state.sessionLength + 1,
         }))
+        if (state.timerLabel === 'Session') {
+          setState(state => ({
+            ...state,
+            timeLeft: state.sessionLength * 60,
+          }))
+        }
         break
       default:
     }
