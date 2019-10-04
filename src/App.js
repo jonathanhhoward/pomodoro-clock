@@ -8,6 +8,7 @@ export default function App () {
     timerLabel: 'Session',
     timeLeft: 1500,
     startStop: 'Start',
+    isTimerRunning: false,
   }
 
   const [state, setState] = useState(initialState)
@@ -18,7 +19,7 @@ export default function App () {
       timer = setInterval(() => {
         setState(state => ({
           ...state,
-          timeLeft: state.timeLeft - 1
+          timeLeft: state.timeLeft - 1,
         }))
       }, 1000)
     } else {
@@ -27,7 +28,22 @@ export default function App () {
     return () => clearInterval(timer)
   }, [state.startStop])
 
+  useEffect(() => {
+    if (state.timerLabel === 'Session') {
+      setState(state => ({
+        ...state,
+        timeLeft: state.sessionLength * 60,
+      }))
+    } else {
+      setState(state => ({
+        ...state,
+        timeLeft: state.breakLength * 60,
+      }))
+    }
+  }, [state.breakLength, state.sessionLength])
+
   const handleDecrement = (event) => {
+    if (state.isTimerRunning) return
     const type = event.target.id.match(/break|session/)[0]
     switch (type) {
       case 'break':
@@ -49,6 +65,7 @@ export default function App () {
   }
 
   const handleIncrement = (event) => {
+    if (state.isTimerRunning) return
     const type = event.target.id.match(/break|session/)[0]
     switch (type) {
       case 'break':
@@ -73,6 +90,7 @@ export default function App () {
     setState(state => ({
       ...state,
       startStop: state.startStop === 'Start' ? 'Stop' : 'Start',
+      isTimerRunning: !state.isTimerRunning,
     }))
   }
 
