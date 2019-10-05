@@ -128,7 +128,7 @@ export default function App () {
       </div>
       <div>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div id={'time-left'}>{state.timeLeft}</div>
+        <div id={'time-left'}>{secondsToMmss(state.timeLeft)}</div>
         <button id={'start_stop'} onClick={handleStartStop}>
           {state.startStop}
         </button>
@@ -136,4 +136,11 @@ export default function App () {
       </div>
     </div>
   )
+}
+
+function secondsToMmss (seconds) {
+  const mm = Math.floor(seconds / 60)
+  const ss = seconds % 60
+  return`${(mm < 10) ? '0' + mm : mm}:` +
+    `${(ss < 10) ? '0' + ss : ss}`
 }
