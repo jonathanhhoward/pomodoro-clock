@@ -28,6 +28,31 @@ export default function App () {
     return () => clearInterval(timer)
   }, [state.startStop])
 
+  useEffect(() => {
+    if (state.timeLeft === 0) {
+      switch (state.timerLabel) {
+        case 'Session':
+          setState(state => ({
+            ...state,
+            timerLabel: 'Break',
+            timeLeft: state.breakLength * 60,
+          }))
+          break
+        case 'Break':
+          setState(state => ({
+            ...state,
+            timerLabel: 'Session',
+            timeLeft: state.sessionLength * 60,
+          }))
+          break
+        default:
+      }
+    }
+    /**
+     * Todo: Play alarm
+     */
+  }, [state.timerLabel, state.timeLeft])
+
   const handleDecrement = (event) => {
     if (state.isTimerRunning) return
     const type = event.target.id.match(/break|session/)[0]
@@ -107,7 +132,7 @@ export default function App () {
   const handleReset = () => {
     setState(initialState)
     /**
-     * Todo: stop audio
+     * Todo: Stop alarm
      */
   }
 
@@ -128,7 +153,7 @@ export default function App () {
       </div>
       <div>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div id={'time-left'}>{secondsToMmss(state.timeLeft)}</div>
+        <div id={'time-left'}>{format_mmss(state.timeLeft)}</div>
         <button id={'start_stop'} onClick={handleStartStop}>
           {state.startStop}
         </button>
@@ -138,9 +163,8 @@ export default function App () {
   )
 }
 
-function secondsToMmss (seconds) {
+function format_mmss (seconds) {
   const mm = Math.floor(seconds / 60)
   const ss = seconds % 60
-  return`${(mm < 10) ? '0' + mm : mm}:` +
-    `${(ss < 10) ? '0' + ss : ss}`
+  return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
 }
