@@ -47,14 +47,16 @@ export default function App () {
     beep.play()
   }, [state.timerLabel, state.timeLeft])
 
-  const handleDecrement = (event) => {
+  const handleChangeLength = (event) => {
     if (state.isTimerRunning) return
-    const type = event.target.id.match(/break|session/)[0]
-    if (type === 'break') {
-      if (state.breakLength === 1) return
+    const isDecrement = /decrement/.test(event.target.id)
+    const [LIMIT, CHANGE] = isDecrement ? [1, -1] : [60, 1]
+    const isBreak = /break/.test(event.target.id)
+    if (isBreak) {
+      if (state.breakLength === LIMIT) return
       setState(state => ({
         ...state,
-        breakLength: state.breakLength - 1,
+        breakLength: state.breakLength + CHANGE,
       }))
       if (state.timerLabel === 'Break') {
         setState(state => ({
@@ -63,40 +65,10 @@ export default function App () {
         }))
       }
     } else {
-      if (state.sessionLength === 1) return
+      if (state.sessionLength === LIMIT) return
       setState(state => ({
         ...state,
-        sessionLength: state.sessionLength - 1,
-      }))
-      if (state.timerLabel === 'Session') {
-        setState(state => ({
-          ...state,
-          timeLeft: state.sessionLength * 60,
-        }))
-      }
-    }
-  }
-
-  const handleIncrement = (event) => {
-    if (state.isTimerRunning) return
-    const type = event.target.id.match(/break|session/)[0]
-    if (type === 'break') {
-      if (state.breakLength === 60) return
-      setState(state => ({
-        ...state,
-        breakLength: state.breakLength + 1,
-      }))
-      if (state.timerLabel === 'Break') {
-        setState(state => ({
-          ...state,
-          timeLeft: state.breakLength * 60,
-        }))
-      }
-    } else {
-      if (state.sessionLength === 60) return
-      setState(state => ({
-        ...state,
-        sessionLength: state.sessionLength + 1,
+        sessionLength: state.sessionLength + CHANGE,
       }))
       if (state.timerLabel === 'Session') {
         setState(state => ({
@@ -127,14 +99,14 @@ export default function App () {
       <div>
         <h2 id={'break-label'}>Break Length</h2>
         <div id={'break-length'}>{state.breakLength}</div>
-        <button id={'break-decrement'} onClick={handleDecrement}>-</button>
-        <button id={'break-increment'} onClick={handleIncrement}>+</button>
+        <button id={'break-decrement'} onClick={handleChangeLength}>-</button>
+        <button id={'break-increment'} onClick={handleChangeLength}>+</button>
       </div>
       <div>
         <h2 id={'session-label'}>Session Length</h2>
         <div id={'session-length'}>{state.sessionLength}</div>
-        <button id={'session-decrement'} onClick={handleDecrement}>-</button>
-        <button id={'session-increment'} onClick={handleIncrement}>+</button>
+        <button id={'session-decrement'} onClick={handleChangeLength}>-</button>
+        <button id={'session-increment'} onClick={handleChangeLength}>+</button>
       </div>
       <div>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
