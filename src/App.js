@@ -43,9 +43,8 @@ export default function App () {
         timeLeft: state.sessionLength * 60,
       }))
     }
-    /**
-     * Todo: Play alarm
-     */
+    const beep = document.getElementById('beep')
+    beep.play()
   }, [state.timerLabel, state.timeLeft])
 
   const handleDecrement = (event) => {
@@ -118,9 +117,8 @@ export default function App () {
 
   const handleReset = () => {
     setState(initialState)
-    /**
-     * Todo: Stop alarm
-     */
+    const beep = document.getElementById('beep')
+    beep.load()
   }
 
   return (
@@ -146,6 +144,7 @@ export default function App () {
         </button>
         <button id={'reset'} onClick={handleReset}>Reset</button>
       </div>
+      <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
     </div>
   )
 }
