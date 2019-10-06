@@ -29,24 +29,19 @@ export default function App () {
   }, [state.startStop])
 
   useEffect(() => {
-    if (state.timeLeft === 0) {
-      switch (state.timerLabel) {
-        case 'Session':
-          setState(state => ({
-            ...state,
-            timerLabel: 'Break',
-            timeLeft: state.breakLength * 60,
-          }))
-          break
-        case 'Break':
-          setState(state => ({
-            ...state,
-            timerLabel: 'Session',
-            timeLeft: state.sessionLength * 60,
-          }))
-          break
-        default:
-      }
+    if (state.timeLeft !== 0) return
+    if (state.timerLabel === 'Session') {
+      setState(state => ({
+        ...state,
+        timerLabel: 'Break',
+        timeLeft: state.breakLength * 60,
+      }))
+    } else {
+      setState(state => ({
+        ...state,
+        timerLabel: 'Session',
+        timeLeft: state.sessionLength * 60,
+      }))
     }
     /**
      * Todo: Play alarm
@@ -56,68 +51,60 @@ export default function App () {
   const handleDecrement = (event) => {
     if (state.isTimerRunning) return
     const type = event.target.id.match(/break|session/)[0]
-    switch (type) {
-      case 'break':
-        if (state.breakLength === 1) return
+    if (type === 'break') {
+      if (state.breakLength === 1) return
+      setState(state => ({
+        ...state,
+        breakLength: state.breakLength - 1,
+      }))
+      if (state.timerLabel === 'Break') {
         setState(state => ({
           ...state,
-          breakLength: state.breakLength - 1,
+          timeLeft: state.breakLength * 60,
         }))
-        if (state.timerLabel === 'Break') {
-          setState(state => ({
-            ...state,
-            timeLeft: state.breakLength * 60,
-          }))
-        }
-        break
-      case 'session':
-        if (state.sessionLength === 1) return
+      }
+    } else {
+      if (state.sessionLength === 1) return
+      setState(state => ({
+        ...state,
+        sessionLength: state.sessionLength - 1,
+      }))
+      if (state.timerLabel === 'Session') {
         setState(state => ({
           ...state,
-          sessionLength: state.sessionLength - 1,
+          timeLeft: state.sessionLength * 60,
         }))
-        if (state.timerLabel === 'Session') {
-          setState(state => ({
-            ...state,
-            timeLeft: state.sessionLength * 60,
-          }))
-        }
-        break
-      default:
+      }
     }
   }
 
   const handleIncrement = (event) => {
     if (state.isTimerRunning) return
     const type = event.target.id.match(/break|session/)[0]
-    switch (type) {
-      case 'break':
-        if (state.breakLength === 60) return
+    if (type === 'break') {
+      if (state.breakLength === 60) return
+      setState(state => ({
+        ...state,
+        breakLength: state.breakLength + 1,
+      }))
+      if (state.timerLabel === 'Break') {
         setState(state => ({
           ...state,
-          breakLength: state.breakLength + 1,
+          timeLeft: state.breakLength * 60,
         }))
-        if (state.timerLabel === 'Break') {
-          setState(state => ({
-            ...state,
-            timeLeft: state.breakLength * 60,
-          }))
-        }
-        break
-      case 'session':
-        if (state.sessionLength === 60) return
+      }
+    } else {
+      if (state.sessionLength === 60) return
+      setState(state => ({
+        ...state,
+        sessionLength: state.sessionLength + 1,
+      }))
+      if (state.timerLabel === 'Session') {
         setState(state => ({
           ...state,
-          sessionLength: state.sessionLength + 1,
+          timeLeft: state.sessionLength * 60,
         }))
-        if (state.timerLabel === 'Session') {
-          setState(state => ({
-            ...state,
-            timeLeft: state.sessionLength * 60,
-          }))
-        }
-        break
-      default:
+      }
     }
   }
 
