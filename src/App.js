@@ -46,16 +46,18 @@ export default function App () {
   const handleChangeLength = (event) => {
     if (isRunning) return
     const isDecrement = /decrement/.test(event.target.id)
-    const [LIMIT, CHANGE] = isDecrement ? [1, -1] : [60, 1]
     const isBreak = /break/.test(event.target.id)
+    const timeToBeChanged = isBreak ? breakLength : sessionLength;
+    const [LIMIT, CHANGE] = isDecrement ? [1, timeToBeChanged - 1] : [60, timeToBeChanged + 1]
+    
     if (isBreak) {
       if (breakLength === LIMIT) return
-      setBreakLength(breakLength => breakLength + CHANGE)
+      setBreakLength(CHANGE)
       if (timerLabel === 'Break') setTimeLeft(breakLength * 60)
     } else {
       if (sessionLength === LIMIT) return
-      setSessionLength(sessionLength => sessionLength + CHANGE)
-      if (timerLabel === 'Session') setTimeLeft(sessionLength * 60)
+      setSessionLength(CHANGE)
+      if (timerLabel === 'Session') setTimeLeft(CHANGE * 60)
     }
   }
 
