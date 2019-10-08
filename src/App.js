@@ -7,90 +7,95 @@ export default function App () {
     sessionLength: 25,
     timerLabel: 'Session',
     timeLeft: 1500,
-    startStop: 'Start',
-    isTimerRunning: false,
+    isStarted: false,
   }
 
   const [state, setState] = useState(initialState)
 
   useEffect(() => {
     let timer = null
-    if (state.startStop === 'Stop') {
+    if (state.isStarted) {
       timer = setInterval(() => {
-        setState(state => ({
-          ...state,
-          timeLeft: state.timeLeft - 1,
+        setState(prev => ({
+          ...prev,
+          timeLeft: prev.timeLeft - 1,
         }))
       }, 1000)
     } else {
       clearInterval(timer)
     }
     return () => clearInterval(timer)
-  }, [state.startStop])
+  }, [state.isStarted])
 
   useEffect(() => {
     if (state.timeLeft !== 0) return
     if (state.timerLabel === 'Session') {
-      setState(state => ({
-        ...state,
+      setState(prev => ({
+        ...prev,
         timerLabel: 'Break',
-        timeLeft: state.breakLength * 60,
+        timeLeft: prev.breakLength * 60,
       }))
     } else {
-      setState(state => ({
-        ...state,
+      setState(prev => ({
+        ...prev,
         timerLabel: 'Session',
-        timeLeft: state.sessionLength * 60,
+        timeLeft: prev.sessionLength * 60,
       }))
     }
-    const beep = document.getElementById('beep')
-    beep.play()
+    document.getElementById('beep').play()
   }, [state.timerLabel, state.timeLeft])
 
   const handleChangeLength = (event) => {
-    if (state.isTimerRunning) return
-    const isDecrement = /decrement/.test(event.target.id)
+    if (state.isStarted) return
+    const isDecrement = event.target.id.includes('decrement')
     const [LIMIT, CHANGE] = isDecrement ? [1, -1] : [60, 1]
-    const isBreak = /break/.test(event.target.id)
+    const isBreak = event.target.id.includes('break')
     if (isBreak) {
       if (state.breakLength === LIMIT) return
-      setState(state => ({
-        ...state,
-        breakLength: state.breakLength + CHANGE,
+      setState(prev => ({
+        ...prev,
+        breakLength: prev.breakLength + CHANGE,
       }))
       if (state.timerLabel === 'Break') {
-        setState(state => ({
-          ...state,
-          timeLeft: state.breakLength * 60,
+        setState(prev => ({
+          ...prev,
+          timeLeft: prev.breakLength * 60,
         }))
       }
     } else {
       if (state.sessionLength === LIMIT) return
-      setState(state => ({
-        ...state,
-        sessionLength: state.sessionLength + CHANGE,
+      setState(prev => ({
+        ...prev,
+        sessionLength: prev.sessionLength + CHANGE,
       }))
       if (state.timerLabel === 'Session') {
-        setState(state => ({
-          ...state,
-          timeLeft: state.sessionLength * 60,
+        setState(prev => ({
+          ...prev,
+          timeLeft: prev.sessionLength * 60,
         }))
       }
     }
   }
 
-  const handleStartStop = () => {
-    setState(state => ({
-      ...state,
-      startStop: state.startStop === 'Start' ? 'Stop' : 'Start',
-      isTimerRunning: !state.isTimerRunning,
+  const handleStartStop = (event) => {
+    event.target.textContent = (
+      event.target.textContent === 'Start' ? 'Stop' : 'Start'
+    )
+    setState(prev => ({
+      ...prev,
+      isStarted: !prev.isStarted,
     }))
   }
 
   const handleReset = () => {
     setState(initialState)
-    const beep = document.getElementById('beep')
-    beep.load()
+    document.getElementById('beep').load()
+  }
+
+  const timeInMmss = () => {
+    const mm = Math.floor(state.timeLeft / 60)
+    const ss = state.timeLeft % 60
+    return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
   }
 
   return (
@@ -110,19 +115,11 @@ export default function App () {
       </div>
       <div>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div id={'time-left'}>{format_mmss(state.timeLeft)}</div>
-        <button id={'start_stop'} onClick={handleStartStop}>
-          {state.startStop}
-        </button>
+        <div id={'time-left'}>{timeInMmss()}</div>
+        <button id={'start_stop'} onClick={handleStartStop}>Start</button>
         <button id={'reset'} onClick={handleReset}>Reset</button>
       </div>
       <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
     </div>
   )
-}
-
-function format_mmss (seconds) {
-  const mm = Math.floor(seconds / 60)
-  const ss = seconds % 60
-  return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
 }
