@@ -2,75 +2,93 @@ import React, { useState, useEffect } from 'react'
 import './App.css'
 
 export default function App () {
-  const initial = {
+  const initialState = {
     breakLength: 5,
     sessionLength: 25,
     timerLabel: 'Session',
     timeLeft: 1500,
     startStop: 'Start',
-    isRunning: false,
+    isTimerRunning: false,
   }
 
-  const [breakLength, setBreakLength] = useState(initial.breakLength)
-  const [sessionLength, setSessionLength] = useState(initial.sessionLength)
-  const [timerLabel, setTimerLabel] = useState(initial.timerLabel)
-  const [timeLeft, setTimeLeft] = useState(initial.timeLeft)
-  const [startStop, setStartStop] = useState(initial.startStop)
-  const [isRunning, setIsRunning] = useState(initial.isRunning)
+  const [state, setState] = useState(initialState)
 
   useEffect(() => {
     let timer = null
-    if (startStop === 'Stop') {
+    if (state.startStop === 'Stop') {
       timer = setInterval(() => {
-        setTimeLeft(timeLeft => timeLeft - 1)
+        setState(state => ({
+          ...state,
+          timeLeft: state.timeLeft - 1,
+        }))
       }, 1000)
     } else {
       clearInterval(timer)
     }
     return () => clearInterval(timer)
-  }, [startStop])
+  }, [state.startStop])
 
   useEffect(() => {
-    if (timeLeft !== 0) return
-    if (timerLabel === 'Session') {
-      setTimerLabel('Break')
-      setTimeLeft(breakLength * 60)
+    if (state.timeLeft !== 0) return
+    if (state.timerLabel === 'Session') {
+      setState(state => ({
+        ...state,
+        timerLabel: 'Break',
+        timeLeft: state.breakLength * 60,
+      }))
     } else {
-      setTimerLabel('Session')
-      setTimeLeft(sessionLength * 60)
+      setState(state => ({
+        ...state,
+        timerLabel: 'Session',
+        timeLeft: state.sessionLength * 60,
+      }))
     }
     const beep = document.getElementById('beep')
     beep.play()
-  }, [breakLength, sessionLength, timerLabel, timeLeft])
+  }, [state.timerLabel, state.timeLeft])
 
   const handleChangeLength = (event) => {
-    if (isRunning) return
+    if (state.isTimerRunning) return
     const isDecrement = /decrement/.test(event.target.id)
     const [LIMIT, CHANGE] = isDecrement ? [1, -1] : [60, 1]
     const isBreak = /break/.test(event.target.id)
     if (isBreak) {
-      if (breakLength === LIMIT) return
-      setBreakLength(breakLength => breakLength + CHANGE)
-      if (timerLabel === 'Break') setTimeLeft(breakLength * 60)
+      if (state.breakLength === LIMIT) return
+      setState(state => ({
+        ...state,
+        breakLength: state.breakLength + CHANGE,
+      }))
+      if (state.timerLabel === 'Break') {
+        setState(state => ({
+          ...state,
+          timeLeft: state.breakLength * 60,
+        }))
+      }
     } else {
-      if (sessionLength === LIMIT) return
-      setSessionLength(sessionLength => sessionLength + CHANGE)
-      if (timerLabel === 'Session') setTimeLeft(sessionLength * 60)
+      if (state.sessionLength === LIMIT) return
+      setState(state => ({
+        ...state,
+        sessionLength: state.sessionLength + CHANGE,
+      }))
+      if (state.timerLabel === 'Session') {
+        setState(state => ({
+          ...state,
+          timeLeft: state.sessionLength * 60,
+        }))
+      }
     }
   }
 
   const handleStartStop = () => {
-    setStartStop(startStop => startStop === 'Start' ? 'Stop' : 'Start')
-    setIsRunning(isRunning => !isRunning)
+    setState(state => ({
+      ...state,
+      startStop: state.startStop === 'Start' ? 'Stop' : 'Start',
+      isTimerRunning: !state.isTimerRunning,
+    }))
   }
 
   const handleReset = () => {
-    setBreakLength(initial.breakLength)
-    setSessionLength(initial.sessionLength)
-    setTimerLabel(initial.timerLabel)
-    setTimeLeft(initial.timeLeft)
-    setStartStop(initial.startStop)
-    setIsRunning(initial.isRunning)
+    setState(initialState)
     const beep = document.getElementById('beep')
     beep.load()
   }
@@ -80,21 +98,21 @@ export default function App () {
       <h1>Pomodoro Clock</h1>
       <div>
         <h2 id={'break-label'}>Break Length</h2>
-        <div id={'break-length'}>{breakLength}</div>
+        <div id={'break-length'}>{state.breakLength}</div>
         <button id={'break-decrement'} onClick={handleChangeLength}>-</button>
         <button id={'break-increment'} onClick={handleChangeLength}>+</button>
       </div>
       <div>
         <h2 id={'session-label'}>Session Length</h2>
-        <div id={'session-length'}>{sessionLength}</div>
+        <div id={'session-length'}>{state.sessionLength}</div>
         <button id={'session-decrement'} onClick={handleChangeLength}>-</button>
         <button id={'session-increment'} onClick={handleChangeLength}>+</button>
       </div>
       <div>
-        <h2 id={'timer-label'}>{timerLabel}</h2>
-        <div id={'time-left'}>{format_mmss(timeLeft)}</div>
+        <h2 id={'timer-label'}>{state.timerLabel}</h2>
+        <div id={'time-left'}>{format_mmss(state.timeLeft)}</div>
         <button id={'start_stop'} onClick={handleStartStop}>
-          {startStop}
+          {state.startStop}
         </button>
         <button id={'reset'} onClick={handleReset}>Reset</button>
       </div>
