@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import './App.css'
 
 export default function App () {
@@ -10,16 +10,53 @@ export default function App () {
     startStop: 'Start',
   }
 
-  const [state, setState] = useState(initialState)
+  const reducer = (state, action) => {
+    switch (action) {
+      case 'break-decrement':
+        return { ...state, breakLength: state.breakLength - 1 }
+      case 'break-increment':
+        return { ...state, breakLength: state.breakLength + 1 }
+      case 'update-break':
+        return { ...state, timeLeft: state.breakLength * 60 }
+      case 'session-decrement':
+        return { ...state, sessionLength: state.sessionLength - 1 }
+      case 'session-increment':
+        return { ...state, sessionLength: state.sessionLength + 1 }
+      case 'update-session':
+        return { ...state, timeLeft: state.sessionLength * 60 }
+      case 'start-stop':
+        return {
+          ...state,
+          startStop: state.startStop === 'Start' ? 'Stop' : 'Start',
+        }
+      case 'countdown':
+        return { ...state, timeLeft: state.timeLeft - 1 }
+      case 'toggle-break':
+        return {
+          ...state,
+          timerLabel: 'Break',
+          timeLeft: state.breakLength * 60,
+        }
+      case 'toggle-session':
+        return {
+          ...state,
+          timerLabel: 'Session',
+          timeLeft: state.sessionLength * 60,
+        }
+      case 'reset':
+        return initialState
+      default:
+        return state
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     let timer = null
     if (state.startStop === 'Stop') {
       timer = setInterval(() => {
-        setState(prev => ({
-          ...prev,
-          timeLeft: prev.timeLeft - 1,
-        }))
+        dispatch('countdown' )
       }, 1000)
     } else {
       clearInterval(timer)
@@ -30,62 +67,38 @@ export default function App () {
   useEffect(() => {
     if (state.timeLeft !== 0) return
     if (state.timerLabel === 'Session') {
-      setState(prev => ({
-        ...prev,
-        timerLabel: 'Break',
-        timeLeft: prev.breakLength * 60,
-      }))
+      dispatch('toggle-break')
     } else {
-      setState(prev => ({
-        ...prev,
-        timerLabel: 'Session',
-        timeLeft: prev.sessionLength * 60,
-      }))
+      dispatch('toggle-session')
     }
     document.getElementById('beep').play()
   }, [state.timerLabel, state.timeLeft])
 
   const handleChangeLength = (event) => {
     if (state.startStop === 'Stop') return
-    const isDecrement = event.target.id.includes('decrement')
-    const [LIMIT, CHANGE] = isDecrement ? [1, -1] : [60, 1]
-    const isBreak = event.target.id.includes('break')
-    if (isBreak) {
+    const action = event.target.id
+    const LIMIT = action.includes('decrement') ? 1 : 60
+    if (action.includes('break')) {
       if (state.breakLength === LIMIT) return
-      setState(prev => ({
-        ...prev,
-        breakLength: prev.breakLength + CHANGE,
-      }))
+      dispatch(action)
       if (state.timerLabel === 'Break') {
-        setState(prev => ({
-          ...prev,
-          timeLeft: prev.breakLength * 60,
-        }))
+        dispatch('update-break')
       }
     } else {
       if (state.sessionLength === LIMIT) return
-      setState(prev => ({
-        ...prev,
-        sessionLength: prev.sessionLength + CHANGE,
-      }))
+      dispatch(action)
       if (state.timerLabel === 'Session') {
-        setState(prev => ({
-          ...prev,
-          timeLeft: prev.sessionLength * 60,
-        }))
+        dispatch('update-session')
       }
     }
   }
 
   const handleStartStop = () => {
-    setState(prev => ({
-      ...prev,
-      startStop: prev.startStop === 'Start' ? 'Stop' : 'Start',
-    }))
+    dispatch('start-stop')
   }
 
   const handleReset = () => {
-    setState(initialState)
+    dispatch('reset')
     document.getElementById('beep').load()
   }
 
