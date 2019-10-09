@@ -7,14 +7,14 @@ export default function App () {
     sessionLength: 25,
     timerLabel: 'Session',
     timeLeft: 1500,
-    isStarted: false,
+    startStop: 'Start',
   }
 
   const [state, setState] = useState(initialState)
 
   useEffect(() => {
     let timer = null
-    if (state.isStarted) {
+    if (state.startStop === 'Stop') {
       timer = setInterval(() => {
         setState(prev => ({
           ...prev,
@@ -25,7 +25,7 @@ export default function App () {
       clearInterval(timer)
     }
     return () => clearInterval(timer)
-  }, [state.isStarted])
+  }, [state.startStop])
 
   useEffect(() => {
     if (state.timeLeft !== 0) return
@@ -46,7 +46,7 @@ export default function App () {
   }, [state.timerLabel, state.timeLeft])
 
   const handleChangeLength = (event) => {
-    if (state.isStarted) return
+    if (state.startStop === 'Stop') return
     const isDecrement = event.target.id.includes('decrement')
     const [LIMIT, CHANGE] = isDecrement ? [1, -1] : [60, 1]
     const isBreak = event.target.id.includes('break')
@@ -77,13 +77,10 @@ export default function App () {
     }
   }
 
-  const handleStartStop = (event) => {
-    event.target.textContent = (
-      event.target.textContent === 'Start' ? 'Stop' : 'Start'
-    )
+  const handleStartStop = () => {
     setState(prev => ({
       ...prev,
-      isStarted: !prev.isStarted,
+      startStop: prev.startStop === 'Start' ? 'Stop' : 'Start',
     }))
   }
 
@@ -92,7 +89,7 @@ export default function App () {
     document.getElementById('beep').load()
   }
 
-  const timeInMmss = () => {
+  const secToMinSec = () => {
     const mm = Math.floor(state.timeLeft / 60)
     const ss = state.timeLeft % 60
     return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
@@ -115,8 +112,10 @@ export default function App () {
       </div>
       <div>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div id={'time-left'}>{timeInMmss()}</div>
-        <button id={'start_stop'} onClick={handleStartStop}>Start</button>
+        <div id={'time-left'}>{secToMinSec()}</div>
+        <button id={'start_stop'} onClick={handleStartStop}>
+          {state.startStop}
+        </button>
         <button id={'reset'} onClick={handleReset}>Reset</button>
       </div>
       <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
