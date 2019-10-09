@@ -12,7 +12,7 @@ export default function App () {
 
   const [state, setState] = useState(initialState)
 
-  useEffect(() => {
+  useEffect(function toggleStartStop() {
     let timer = null
     if (state.isStarted) {
       timer = setInterval(() => {
@@ -27,7 +27,7 @@ export default function App () {
     return () => clearInterval(timer)
   }, [state.isStarted])
 
-  useEffect(() => {
+  useEffect(function toggleBreakSession() {
     if (state.timeLeft !== 0) return
     if (state.timerLabel === 'Session') {
       setState(prev => ({
@@ -92,7 +92,7 @@ export default function App () {
     document.getElementById('beep').load()
   }
 
-  const timeInMmss = () => {
+  const display_mmss = () => {
     const mm = Math.floor(state.timeLeft / 60)
     const ss = state.timeLeft % 60
     return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
@@ -115,7 +115,7 @@ export default function App () {
       </div>
       <div>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div id={'time-left'}>{timeInMmss()}</div>
+        <div id={'time-left'}>{display_mmss()}</div>
         <button id={'start_stop'} onClick={handleStartStop}>Start</button>
         <button id={'reset'} onClick={handleReset}>Reset</button>
       </div>
