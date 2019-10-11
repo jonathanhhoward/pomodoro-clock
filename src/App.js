@@ -112,67 +112,67 @@ export default function App () {
   const breakData = {
     h2: {
       id: 'break-label',
-      text: 'Break Length'
+      text: 'Break Length',
     },
     div: {
       id: 'break-length',
       class: 'value',
-      text: state.breakLength
+      text: state.breakLength,
     },
     button1: {
       id: 'break-decrement',
       callback: handleChangeLength,
-      text: '-'
+      text: '-',
     },
     button2: {
       id: 'break-increment',
       callback: handleChangeLength,
-      text: '+'
-    }
+      text: '+',
+    },
   }
 
   const sessionData = {
     h2: {
       id: 'session-label',
-      text: 'Session Length'
+      text: 'Session Length',
     },
     div: {
       id: 'session-length',
       class: 'value',
-      text: state.sessionLength
+      text: state.sessionLength,
     },
     button1: {
       id: 'session-decrement',
       callback: handleChangeLength,
-      text: '-'
+      text: '-',
     },
     button2: {
       id: 'session-increment',
       callback: handleChangeLength,
-      text: '+'
-    }
+      text: '+',
+    },
   }
 
   const timerData = {
     h2: {
       id: 'timer-label',
-      text: state.timerLabel
+      text: state.timerLabel,
     },
     div: {
       id: 'time-left',
       class: 'value',
-      text: secToMinSec()
+      text: secToMinSec(),
     },
     button1: {
       id: 'start_stop',
       callback: handleStartStop,
-      text: state.startStop
+      text: state.startStop,
     },
     button2: {
       id: 'reset',
       callback: handleReset,
-      text: 'Reset'
-    }
+      text: 'Reset',
+    },
   }
 
   return (
