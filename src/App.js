@@ -24,7 +24,7 @@ export default function App () {
         return { ...state, sessionLength: state.sessionLength + 1 }
       case 'update-session':
         return { ...state, timeLeft: state.sessionLength * 60 }
-      case 'start-stop':
+      case 'toggle-startStop':
         return {
           ...state,
           startStop: state.startStop === 'Start' ? 'Stop' : 'Start',
@@ -94,7 +94,7 @@ export default function App () {
   }
 
   const handleStartStop = () => {
-    dispatch({ type: 'start-stop' })
+    dispatch({ type: 'toggle-startStop' })
   }
 
   const handleReset = () => {
