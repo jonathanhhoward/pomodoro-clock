@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react'
+import ClockControl from './ClockControl'
 import './App.css'
 
 export default function App () {
@@ -108,34 +109,80 @@ export default function App () {
     return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
   }
 
+  const breakData = {
+    h2: {
+      id: 'break-label',
+      text: 'Break Length'
+    },
+    div: {
+      id: 'break-length',
+      class: 'value',
+      text: state.breakLength
+    },
+    button1: {
+      id: 'break-decrement',
+      callback: handleChangeLength,
+      text: '-'
+    },
+    button2: {
+      id: 'break-increment',
+      callback: handleChangeLength,
+      text: '+'
+    }
+  }
+
+  const sessionData = {
+    h2: {
+      id: 'session-label',
+      text: 'Session Length'
+    },
+    div: {
+      id: 'session-length',
+      class: 'value',
+      text: state.sessionLength
+    },
+    button1: {
+      id: 'session-decrement',
+      callback: handleChangeLength,
+      text: '-'
+    },
+    button2: {
+      id: 'session-increment',
+      callback: handleChangeLength,
+      text: '+'
+    }
+  }
+
+  const timerData = {
+    h2: {
+      id: 'timer-label',
+      text: state.timerLabel
+    },
+    div: {
+      id: 'time-left',
+      class: 'value',
+      text: secToMinSec()
+    },
+    button1: {
+      id: 'start_stop',
+      callback: handleStartStop,
+      text: state.startStop
+    },
+    button2: {
+      id: 'reset',
+      callback: handleReset,
+      text: 'Reset'
+    }
+  }
+
   return (
-    <div className={'Clock'}>
+    <div className={'clock'}>
       <h1>Pomodoro Clock</h1>
-      <div className={'Container'}>
-        <div className={'Break'}>
-          <h2 id={'break-label'}>Break Length</h2>
-          <div className={'value'} id={'break-length'}>{state.breakLength}</div>
-          <button id={'break-decrement'} onClick={handleChangeLength}>-</button>
-          <button id={'break-increment'} onClick={handleChangeLength}>+</button>
-        </div>
-        <div className={'Session'}>
-          <h2 id={'session-label'}>Session Length</h2>
-          <div className={'value'}
-               id={'session-length'}>{state.sessionLength}</div>
-          <button id={'session-decrement'} onClick={handleChangeLength}>-
-          </button>
-          <button id={'session-increment'} onClick={handleChangeLength}>+
-          </button>
-        </div>
+      <div className={'flexbox'}>
+        <ClockControl data={breakData}/>
+        <ClockControl data={sessionData}/>
       </div>
-      <div className={'Timer'}>
-        <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div className={'value'} id={'time-left'}>{secToMinSec()}</div>
-        <button id={'start_stop'} onClick={handleStartStop}>
-          {state.startStop}
-        </button>
-        <button id={'reset'} onClick={handleReset}>Reset</button>
-      </div>
+      <ClockControl data={timerData}/>
       <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
     </div>
   )
