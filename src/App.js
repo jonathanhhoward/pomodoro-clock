@@ -11,7 +11,7 @@ export default function App () {
   }
 
   const reducer = (state, action) => {
-    switch (action) {
+    switch (action.type) {
       case 'break-decrement':
         return { ...state, breakLength: state.breakLength - 1 }
       case 'break-increment':
@@ -44,7 +44,7 @@ export default function App () {
           timeLeft: state.sessionLength * 60,
         }
       case 'reset':
-        return initialState
+        return action.payload
       default:
         return state
     }
@@ -56,7 +56,7 @@ export default function App () {
     let timer = null
     if (state.startStop === 'Stop') {
       timer = setInterval(() => {
-        dispatch('countdown' )
+        dispatch({ type: 'countdown' })
       }, 1000)
     } else {
       clearInterval(timer)
@@ -67,9 +67,9 @@ export default function App () {
   useEffect(() => {
     if (state.timeLeft !== 0) return
     if (state.timerLabel === 'Session') {
-      dispatch('toggle-break')
+      dispatch({ type: 'toggle-break' })
     } else {
-      dispatch('toggle-session')
+      dispatch({ type: 'toggle-session' })
     }
     document.getElementById('beep').play()
   }, [state.timerLabel, state.timeLeft])
@@ -80,25 +80,25 @@ export default function App () {
     const LIMIT = action.includes('decrement') ? 1 : 60
     if (action.includes('break')) {
       if (state.breakLength === LIMIT) return
-      dispatch(action)
+      dispatch({ type: action })
       if (state.timerLabel === 'Break') {
-        dispatch('update-break')
+        dispatch({ type: 'update-break' })
       }
     } else {
       if (state.sessionLength === LIMIT) return
-      dispatch(action)
+      dispatch({ type: action })
       if (state.timerLabel === 'Session') {
-        dispatch('update-session')
+        dispatch({ type: 'update-session' })
       }
     }
   }
 
   const handleStartStop = () => {
-    dispatch('start-stop')
+    dispatch({ type: 'start-stop' })
   }
 
   const handleReset = () => {
-    dispatch('reset')
+    dispatch({ type: 'reset', payload: initialState })
     document.getElementById('beep').load()
   }
 
@@ -109,23 +109,28 @@ export default function App () {
   }
 
   return (
-    <div>
+    <div className={'Clock'}>
       <h1>Pomodoro Clock</h1>
-      <div>
-        <h2 id={'break-label'}>Break Length</h2>
-        <div id={'break-length'}>{state.breakLength}</div>
-        <button id={'break-decrement'} onClick={handleChangeLength}>-</button>
-        <button id={'break-increment'} onClick={handleChangeLength}>+</button>
+      <div className={'Container'}>
+        <div className={'Break'}>
+          <h2 id={'break-label'}>Break Length</h2>
+          <div className={'value'} id={'break-length'}>{state.breakLength}</div>
+          <button id={'break-decrement'} onClick={handleChangeLength}>-</button>
+          <button id={'break-increment'} onClick={handleChangeLength}>+</button>
+        </div>
+        <div className={'Session'}>
+          <h2 id={'session-label'}>Session Length</h2>
+          <div className={'value'}
+               id={'session-length'}>{state.sessionLength}</div>
+          <button id={'session-decrement'} onClick={handleChangeLength}>-
+          </button>
+          <button id={'session-increment'} onClick={handleChangeLength}>+
+          </button>
+        </div>
       </div>
-      <div>
-        <h2 id={'session-label'}>Session Length</h2>
-        <div id={'session-length'}>{state.sessionLength}</div>
-        <button id={'session-decrement'} onClick={handleChangeLength}>-</button>
-        <button id={'session-increment'} onClick={handleChangeLength}>+</button>
-      </div>
-      <div>
+      <div className={'Timer'}>
         <h2 id={'timer-label'}>{state.timerLabel}</h2>
-        <div id={'time-left'}>{secToMinSec()}</div>
+        <div className={'value'} id={'time-left'}>{secToMinSec()}</div>
         <button id={'start_stop'} onClick={handleStartStop}>
           {state.startStop}
         </button>
