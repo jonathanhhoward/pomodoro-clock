@@ -1,3 +1,71 @@
+$primary-color: #333333;
+$secondary-color: cadetblue;
+
+html {
+  font-size: 100%;
+}
+
 body {
+  background-color: $secondary-color;
+  color: $primary-color;
   text-align: center;
+  max-width: 800px;
+  margin: auto;
+}
+
+.ClockControl {
+  @media screen and (max-width: 480px) {
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  div {
+    margin: 5px;
+  }
+
+  %button-shared {
+    background-color: transparent;
+    color: $primary-color;
+    font-weight: bold;
+    border: 3px solid $primary-color;
+    border-radius: 15px;
+    height: 30px;
+    margin: 5px;
+    padding: 0;
+
+    &:hover {
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
+
+    &:active {
+      color: red;
+    }
+  }
+
+  .pill {
+    @extend %button-shared;
+    width: 70px;
+  }
+
+  .circle {
+    @extend %button-shared;
+    width: 30px;
+  }
+
+  .value {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+.flexbox {
+  display: flex;
+  justify-content: space-evenly;
+  @media screen and (max-width: 480px) {
+    display: block;
+  }
 }

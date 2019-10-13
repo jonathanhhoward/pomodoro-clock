@@ -8,7 +8,7 @@ export default function App () {
     sessionLength: 25,
     timerLabel: 'Session',
     timeLeft: 1500,
-    startStop: 'Start',
+    startStop: 'START',
   }
 
   const reducer = (state, action) => {
@@ -28,7 +28,7 @@ export default function App () {
       case 'toggle-startStop':
         return {
           ...state,
-          startStop: state.startStop === 'Start' ? 'Stop' : 'Start',
+          startStop: state.startStop === 'START' ? 'STOP' : 'START',
         }
       case 'countdown':
         return { ...state, timeLeft: state.timeLeft - 1 }
@@ -55,7 +55,7 @@ export default function App () {
 
   useEffect(() => {
     let timer = null
-    if (state.startStop === 'Stop') {
+    if (state.startStop === 'STOP') {
       timer = setInterval(() => {
         dispatch({ type: 'countdown' })
       }, 1000)
@@ -76,7 +76,7 @@ export default function App () {
   }, [state.timerLabel, state.timeLeft])
 
   const handleChangeLength = (event) => {
-    if (state.startStop === 'Stop') return
+    if (state.startStop === 'STOP') return
     const action = event.target.id
     const LIMIT = action.includes('decrement') ? 1 : 60
     if (action.includes('break')) {
@@ -112,20 +112,23 @@ export default function App () {
   const breakData = {
     h2: {
       id: 'break-label',
+      class: null,
       text: 'Break Length',
     },
     div: {
       id: 'break-length',
-      class: 'value',
+      class: 'length',
       text: state.breakLength,
     },
     button1: {
       id: 'break-decrement',
+      class: 'circle',
       callback: handleChangeLength,
       text: '-',
     },
     button2: {
       id: 'break-increment',
+      class: 'circle',
       callback: handleChangeLength,
       text: '+',
     },
@@ -134,20 +137,23 @@ export default function App () {
   const sessionData = {
     h2: {
       id: 'session-label',
+      class: null,
       text: 'Session Length',
     },
     div: {
       id: 'session-length',
-      class: 'value',
+      class: 'length',
       text: state.sessionLength,
     },
     button1: {
       id: 'session-decrement',
+      class: 'circle',
       callback: handleChangeLength,
       text: '-',
     },
     button2: {
       id: 'session-increment',
+      class: 'circle',
       callback: handleChangeLength,
       text: '+',
     },
@@ -156,22 +162,25 @@ export default function App () {
   const timerData = {
     h2: {
       id: 'timer-label',
+      class: null,
       text: state.timerLabel,
     },
     div: {
       id: 'time-left',
-      class: 'value',
+      class: 'time',
       text: secToMinSec(),
     },
     button1: {
       id: 'start_stop',
+      class: 'pill',
       callback: handleStartStop,
       text: state.startStop,
     },
     button2: {
       id: 'reset',
+      class: 'pill',
       callback: handleReset,
-      text: 'Reset',
+      text: 'RESET',
     },
   }
 
@@ -179,10 +188,10 @@ export default function App () {
     <div className={'clock'}>
       <h1>Pomodoro Clock</h1>
       <div className={'flexbox'}>
-        <ClockControl data={breakData}/>
-        <ClockControl data={sessionData}/>
+        <ClockControl name={null} class={null} data={breakData}/>
+        <ClockControl name={null} class={null} data={sessionData}/>
       </div>
-      <ClockControl data={timerData}/>
+      <ClockControl name={null} class={null} data={timerData}/>
       <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
     </div>
   )
