@@ -9,12 +9,14 @@ export default function App () {
   const STOP = 'STOP'
   const RESET = 'RESET'
   const SEC_PER_MIN = 60
+  const BREAK_LABEL = 'Break'
+  const SESSION_LABEL = 'Session'
 
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
-    timerLabel: 'Session',
-    timeLeft: 1500,
+    timerLabel: SESSION_LABEL,
+    timeLeft: 25 * SEC_PER_MIN,
     startStop: START,
   }
 
@@ -42,13 +44,13 @@ export default function App () {
       case 'toggle-break':
         return {
           ...state,
-          timerLabel: 'Break',
+          timerLabel: BREAK_LABEL,
           timeLeft: state.breakLength * SEC_PER_MIN,
         }
       case 'toggle-session':
         return {
           ...state,
-          timerLabel: 'Session',
+          timerLabel: SESSION_LABEL,
           timeLeft: state.sessionLength * SEC_PER_MIN,
         }
       case 'reset':
@@ -74,7 +76,7 @@ export default function App () {
 
   useEffect(() => {
     if (state.timeLeft !== 0) return
-    if (state.timerLabel === 'Session') {
+    if (state.timerLabel === SESSION_LABEL) {
       dispatch({ type: 'toggle-break' })
     } else {
       dispatch({ type: 'toggle-session' })
@@ -89,13 +91,13 @@ export default function App () {
     if (action.includes('break')) {
       if (state.breakLength === LIMIT) return
       dispatch({ type: action })
-      if (state.timerLabel === 'Break') {
+      if (state.timerLabel === BREAK_LABEL) {
         dispatch({ type: 'update-break' })
       }
     } else {
       if (state.sessionLength === LIMIT) return
       dispatch({ type: action })
-      if (state.timerLabel === 'Session') {
+      if (state.timerLabel === SESSION_LABEL) {
         dispatch({ type: 'update-session' })
       }
     }
@@ -196,10 +198,10 @@ export default function App () {
     <div className={'clock'}>
       <h1>Pomodoro Clock</h1>
       <div className={'flexbox'}>
-        <ClockControl name={null} class={null} data={breakData}/>
-        <ClockControl name={null} class={null} data={sessionData}/>
+        <ClockControl data={breakData}/>
+        <ClockControl data={sessionData}/>
       </div>
-      <ClockControl name={null} class={null} data={timerData}/>
+      <ClockControl data={timerData}/>
       <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
     </div>
   )
