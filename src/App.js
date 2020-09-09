@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
 import ClockControl from './ClockControl'
-import './App.css'
+import './App.scss'
 
 export default function App () {
   const PLUS = '+'
