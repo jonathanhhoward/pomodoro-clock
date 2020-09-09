@@ -1,15 +1,22 @@
 {
   "files": {
-    "main.css": "/pomodoro-clock/static/css/main.554113e5.chunk.css",
-    "main.js": "/pomodoro-clock/static/js/main.1064f161.chunk.js",
-    "main.js.map": "/pomodoro-clock/static/js/main.1064f161.chunk.js.map",
-    "runtime-main.js": "/pomodoro-clock/static/js/runtime-main.cc612b39.js",
-    "runtime-main.js.map": "/pomodoro-clock/static/js/runtime-main.cc612b39.js.map",
-    "static/js/2.0934ff13.chunk.js": "/pomodoro-clock/static/js/2.0934ff13.chunk.js",
-    "static/js/2.0934ff13.chunk.js.map": "/pomodoro-clock/static/js/2.0934ff13.chunk.js.map",
+    "main.css": "/pomodoro-clock/static/css/main.b415c99e.chunk.css",
+    "main.js": "/pomodoro-clock/static/js/main.4129e2c3.chunk.js",
+    "main.js.map": "/pomodoro-clock/static/js/main.4129e2c3.chunk.js.map",
+    "runtime-main.js": "/pomodoro-clock/static/js/runtime-main.cd73fa2f.js",
+    "runtime-main.js.map": "/pomodoro-clock/static/js/runtime-main.cd73fa2f.js.map",
+    "static/js/2.0b22d9ed.chunk.js": "/pomodoro-clock/static/js/2.0b22d9ed.chunk.js",
+    "static/js/2.0b22d9ed.chunk.js.map": "/pomodoro-clock/static/js/2.0b22d9ed.chunk.js.map",
     "index.html": "/pomodoro-clock/index.html",
-    "precache-manifest.d7af5d06382a72a772d66ffe9ae9ecd4.js": "/pomodoro-clock/precache-manifest.d7af5d06382a72a772d66ffe9ae9ecd4.js",
+    "precache-manifest.5a73999a38c09c9066ced3272dc87b45.js": "/pomodoro-clock/precache-manifest.5a73999a38c09c9066ced3272dc87b45.js",
     "service-worker.js": "/pomodoro-clock/service-worker.js",
-    "static/css/main.554113e5.chunk.css.map": "/pomodoro-clock/static/css/main.554113e5.chunk.css.map"
-  }
+    "static/css/main.b415c99e.chunk.css.map": "/pomodoro-clock/static/css/main.b415c99e.chunk.css.map",
+    "static/js/2.0b22d9ed.chunk.js.LICENSE.txt": "/pomodoro-clock/static/js/2.0b22d9ed.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd73fa2f.js",
+    "static/js/2.0b22d9ed.chunk.js",
+    "static/css/main.b415c99e.chunk.css",
+    "static/js/main.4129e2c3.chunk.js"
+  ]
 }
