@@ -196,14 +196,14 @@ export default function App () {
   }
 
   return (
-    <div className={'clock'}>
+    <div className="clock">
       <h1>Pomodoro Clock</h1>
-      <div className={'flexbox'}>
+      <div className="flexbox">
         <ClockControl data={breakData}/>
         <ClockControl data={sessionData}/>
       </div>
       <ClockControl data={timerData}/>
-      <audio id={'beep'} src={beepSound} preload={'auto'}/>
+      <audio id="beep" src={beepSound} preload="auto"/>
     </div>
   )
 }
