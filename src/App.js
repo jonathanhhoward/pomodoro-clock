@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
 import ClockControl from './ClockControl'
+import beepSound from './beep.mp3'
 import './App.scss'
 
 export default function App () {
@@ -202,7 +203,7 @@ export default function App () {
         <ClockControl data={sessionData}/>
       </div>
       <ClockControl data={timerData}/>
-      <audio id={'beep'} src={'beep.mp3'} preload={'auto'}/>
+      <audio id={'beep'} src={beepSound} preload={'auto'}/>
     </div>
   )
 }
