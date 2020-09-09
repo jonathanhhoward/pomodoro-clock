@@ -1,32 +1,23 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import ClockControl from './ClockControl'
 import reducer from './reducer'
 import beepSound from './beep.mp3'
 import './App.scss'
 
 export default function App () {
-  const PLUS = '+'
-  const MINUS = '-'
-  const START = 'START'
-  const STOP = 'STOP'
-  const RESET = 'RESET'
-  const SEC_PER_MIN = 60
-  const BREAK_LABEL = 'Break'
-  const SESSION_LABEL = 'Session'
-
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
-    timerLabel: SESSION_LABEL,
-    timeLeft: 25 * SEC_PER_MIN,
-    startStop: START,
+    timerLabel: 'Session',
+    timeLeft: 25 * 60,
+    startStop: 'START',
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     let timer = null
-    if (state.startStop === STOP) {
+    if (state.startStop === 'STOP') {
       timer = setInterval(() => {
         dispatch({ type: 'countdown' })
       }, 1000)
@@ -38,7 +29,7 @@ export default function App () {
 
   useEffect(() => {
     if (state.timeLeft !== 0) return
-    if (state.timerLabel === SESSION_LABEL) {
+    if (state.timerLabel === 'Session') {
       dispatch({ type: 'toggle-break' })
     } else {
       dispatch({ type: 'toggle-session' })
@@ -47,19 +38,19 @@ export default function App () {
   }, [state.timerLabel, state.timeLeft])
 
   const handleChangeLength = (event) => {
-    if (state.startStop === STOP) return
+    if (state.startStop === 'STOP') return
     const action = event.target.id
     const LIMIT = action.includes('decrement') ? 1 : 60
     if (action.includes('break')) {
       if (state.breakLength === LIMIT) return
       dispatch({ type: action })
-      if (state.timerLabel === BREAK_LABEL) {
+      if (state.timerLabel === 'Break') {
         dispatch({ type: 'update-break' })
       }
     } else {
       if (state.sessionLength === LIMIT) return
       dispatch({ type: action })
-      if (state.timerLabel === SESSION_LABEL) {
+      if (state.timerLabel === 'Session') {
         dispatch({ type: 'update-session' })
       }
     }
@@ -75,8 +66,8 @@ export default function App () {
   }
 
   const secToMinSec = () => {
-    const mm = Math.floor(state.timeLeft / SEC_PER_MIN)
-    const ss = state.timeLeft % SEC_PER_MIN
+    const mm = Math.floor(state.timeLeft / 60)
+    const ss = state.timeLeft % 60
     return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
   }
 
@@ -95,13 +86,13 @@ export default function App () {
       id: 'break-decrement',
       class: 'circle',
       callback: handleChangeLength,
-      text: MINUS,
+      text: '-',
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
       callback: handleChangeLength,
-      text: PLUS,
+      text: '+',
     },
   }
 
@@ -120,13 +111,13 @@ export default function App () {
       id: 'session-decrement',
       class: 'circle',
       callback: handleChangeLength,
-      text: MINUS,
+      text: '-',
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
       callback: handleChangeLength,
-      text: PLUS,
+      text: '+',
     },
   }
 
@@ -151,7 +142,7 @@ export default function App () {
       id: 'reset',
       class: 'pill',
       callback: handleReset,
-      text: RESET,
+      text: 'RESET',
     },
   }
 
