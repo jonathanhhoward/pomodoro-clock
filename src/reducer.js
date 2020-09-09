@@ -20,13 +20,13 @@ function reducer (state, action) {
       return {
         ...state,
         timerLabel: 'Break',
-        timeLeft: state.breakLength * 60,
+        timeLeft: state.breakLength * 60
       }
     case 'toggle-session':
       return {
         ...state,
         timerLabel: 'Session',
-        timeLeft: state.sessionLength * 60,
+        timeLeft: state.sessionLength * 60
       }
     case 'reset':
       return action.payload

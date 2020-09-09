@@ -4,13 +4,13 @@ import reducer from './reducer'
 import beepSound from './beep.mp3'
 import './App.scss'
 
-export default function App () {
+function App () {
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
     timerLabel: 'Session',
     timeLeft: 25 * 60,
-    startStop: 'START',
+    startStop: 'START'
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -75,75 +75,75 @@ export default function App () {
     h2: {
       id: 'break-label',
       class: null,
-      text: 'Break Length',
+      text: 'Break Length'
     },
     div: {
       id: 'break-length',
       class: 'length',
-      text: state.breakLength,
+      text: state.breakLength
     },
     button1: {
       id: 'break-decrement',
       class: 'circle',
       callback: handleChangeLength,
-      text: '-',
+      text: '-'
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
       callback: handleChangeLength,
-      text: '+',
-    },
+      text: '+'
+    }
   }
 
   const sessionData = {
     h2: {
       id: 'session-label',
       class: null,
-      text: 'Session Length',
+      text: 'Session Length'
     },
     div: {
       id: 'session-length',
       class: 'length',
-      text: state.sessionLength,
+      text: state.sessionLength
     },
     button1: {
       id: 'session-decrement',
       class: 'circle',
       callback: handleChangeLength,
-      text: '-',
+      text: '-'
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
       callback: handleChangeLength,
-      text: '+',
-    },
+      text: '+'
+    }
   }
 
   const timerData = {
     h2: {
       id: 'timer-label',
       class: null,
-      text: state.timerLabel,
+      text: state.timerLabel
     },
     div: {
       id: 'time-left',
       class: 'time',
-      text: secToMinSec(),
+      text: secToMinSec()
     },
     button1: {
       id: 'start_stop',
       class: 'pill',
       callback: handleStartStop,
-      text: state.startStop,
+      text: state.startStop
     },
     button2: {
       id: 'reset',
       class: 'pill',
       callback: handleReset,
-      text: 'RESET',
-    },
+      text: 'RESET'
+    }
   }
 
   return (
@@ -158,3 +158,5 @@ export default function App () {
     </div>
   )
 }
+
+export default App

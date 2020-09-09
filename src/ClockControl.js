@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function ClockControl (props) {
-  const {h2, div, button1, button2} = props.data
+function ClockControl (props) {
+  const { h2, div, button1, button2 } = props.data
   return (
     <div id={props.name} className={'ClockControl ' + props.class}>
       <h2 id={h2.id} className={h2.class}>
@@ -27,3 +27,5 @@ export default function ClockControl (props) {
     </div>
   )
 }
+
+export default ClockControl
