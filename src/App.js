@@ -38,7 +38,7 @@ function App () {
     document.getElementById('beep').play()
   }, [state.timerLabel, state.timeLeft])
 
-  const handleChangeLength = (event) => {
+  function handleChangeLength (event) {
     if (state.startStop === 'STOP') return
     const action = event.target.id
     const LIMIT = action.includes('decrement') ? 1 : 60
@@ -57,11 +57,11 @@ function App () {
     }
   }
 
-  const handleStartStop = () => {
+  function handleStartStop () {
     dispatch({ type: 'toggle-startStop' })
   }
 
-  const handleReset = () => {
+  function handleReset () {
     dispatch({ type: 'reset', payload: initialState })
     document.getElementById('beep').load()
   }
