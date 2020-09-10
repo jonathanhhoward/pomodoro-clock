@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import ClockControl from './ClockControl'
 import reducer from './reducer'
+import formatSecondsAsMMSS from './formatSecondsAsMMSS'
 import beepSound from './beep.mp3'
 import './App.scss'
 
@@ -65,12 +66,6 @@ function App () {
     document.getElementById('beep').load()
   }
 
-  const secToMinSec = () => {
-    const mm = Math.floor(state.timeLeft / 60)
-    const ss = state.timeLeft % 60
-    return `${mm < 10 ? '0' + mm : mm}:${ss < 10 ? '0' + ss : ss}`
-  }
-
   const breakData = {
     h2: {
       id: 'break-label',
@@ -130,7 +125,7 @@ function App () {
     div: {
       id: 'time-left',
       class: 'time',
-      text: secToMinSec()
+      text: formatSecondsAsMMSS(state.timeLeft)
     },
     button1: {
       id: 'start_stop',
