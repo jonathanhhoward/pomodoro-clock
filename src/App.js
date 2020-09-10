@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
-import ClockControl from './ClockControl'
+import ClockControl from './components/ClockControl'
 import reducer from './reducer'
 import formatSecondsAsMMSS from './formatSecondsAsMMSS'
 import beepSound from './beep.mp3'
