@@ -38,23 +38,32 @@ function App () {
     document.getElementById('beep').play()
   }, [state.timerLabel, state.timeLeft])
 
-  function handleChangeLength (event) {
-    if (state.startStop === 'STOP') return
+  function handleChangeBreak (event) {
+    if (state.startStop === 'STOP')
+      return
+
     const action = event.target.id
     const LIMIT = action.includes('decrement') ? 1 : 60
-    if (action.includes('break')) {
-      if (state.breakLength === LIMIT) return
-      dispatch({ type: action })
-      if (state.timerLabel === 'Break') {
-        dispatch({ type: 'update-break' })
-      }
-    } else {
-      if (state.sessionLength === LIMIT) return
-      dispatch({ type: action })
-      if (state.timerLabel === 'Session') {
-        dispatch({ type: 'update-session' })
-      }
-    }
+    if (state.breakLength === LIMIT)
+      return
+
+    dispatch({ type: action })
+    if (state.timerLabel === 'Break')
+      dispatch({ type: 'update-break' })
+  }
+
+  function handleChangeSession (event) {
+    if (state.startStop === 'STOP')
+      return
+
+    const action = event.target.id
+    const LIMIT = action.includes('decrement') ? 1 : 60
+    if (state.sessionLength === LIMIT)
+      return
+
+    dispatch({ type: action })
+    if (state.timerLabel === 'Session')
+      dispatch({ type: 'update-session' })
   }
 
   function handleStartStop () {
@@ -80,13 +89,13 @@ function App () {
     button1: {
       id: 'break-decrement',
       class: 'circle',
-      callback: handleChangeLength,
+      callback: handleChangeBreak,
       text: '-'
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
-      callback: handleChangeLength,
+      callback: handleChangeBreak,
       text: '+'
     }
   }
@@ -105,13 +114,13 @@ function App () {
     button1: {
       id: 'session-decrement',
       class: 'circle',
-      callback: handleChangeLength,
+      callback: handleChangeSession,
       text: '-'
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
-      callback: handleChangeLength,
+      callback: handleChangeSession,
       text: '+'
     }
   }
