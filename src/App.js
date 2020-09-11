@@ -1,9 +1,8 @@
 import React, { useEffect, useReducer } from 'react'
 import BreakControl from './components/BreakControl'
 import SessionControl from './components/SessionControl'
-import ClockControl from './components/ClockControl'
+import TimerControl from './components/TimerControl'
 import reducer from './reducer'
-import formatSecondsAsMMSS from './formatSecondsAsMMSS'
 import beepSound from './beep.mp3'
 import './App.scss'
 
@@ -77,31 +76,6 @@ function App () {
     document.getElementById('beep').load()
   }
 
-  const timerData = {
-    h2: {
-      id: 'timer-label',
-      class: null,
-      text: state.timerLabel
-    },
-    div: {
-      id: 'time-left',
-      class: 'time',
-      text: formatSecondsAsMMSS(state.timeLeft)
-    },
-    button1: {
-      id: 'start_stop',
-      class: 'pill',
-      callback: handleStartStop,
-      text: state.startStop
-    },
-    button2: {
-      id: 'reset',
-      class: 'pill',
-      callback: handleReset,
-      text: 'RESET'
-    }
-  }
-
   return (
     <div className="clock">
       <h1>Pomodoro Clock</h1>
@@ -115,7 +89,13 @@ function App () {
           onChange={handleChangeSession}
         />
       </div>
-      <ClockControl data={timerData}/>
+      <TimerControl
+        timerLabel={state.timerLabel}
+        timeLeft={state.timeLeft}
+        startStop={state.startStop}
+        onClickStartStop={handleStartStop}
+        onClickReset={handleReset}
+      />
       <audio id="beep" src={beepSound} preload="auto"/>
     </div>
   )
