@@ -1,7 +1,7 @@
 import React from 'react'
 import ClockControl from './ClockControl'
 
-function BreakControl({ length, onChange }) {
+function BreakControl ({ breakLength, onChangeBreak }) {
   const breakData = {
     h2: {
       id: 'break-label',
@@ -11,18 +11,18 @@ function BreakControl({ length, onChange }) {
     div: {
       id: 'break-length',
       class: 'length',
-      text: length
+      text: breakLength
     },
     button1: {
       id: 'break-decrement',
       class: 'circle',
-      callback: onChange,
+      callback: onChangeBreak,
       text: '-'
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
-      callback: onChange,
+      callback: onChangeBreak,
       text: '+'
     }
   }

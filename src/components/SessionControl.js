@@ -1,7 +1,7 @@
 import React from 'react'
 import ClockControl from './ClockControl'
 
-function SessionControl({length, onChange}) {
+function SessionControl ({ sessionLength, onChangeSession }) {
   const sessionData = {
     h2: {
       id: 'session-label',
@@ -11,18 +11,18 @@ function SessionControl({length, onChange}) {
     div: {
       id: 'session-length',
       class: 'length',
-      text: length
+      text: sessionLength
     },
     button1: {
       id: 'session-decrement',
       class: 'circle',
-      callback: onChange,
+      callback: onChangeSession,
       text: '-'
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
-      callback: onChange,
+      callback: onChangeSession,
       text: '+'
     }
   }

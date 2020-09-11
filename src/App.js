@@ -19,6 +19,7 @@ function App () {
 
   useEffect(() => {
     let timer = null
+
     if (state.startStop === 'STOP') {
       timer = setInterval(() => {
         dispatch({ type: 'countdown' })
@@ -26,16 +27,20 @@ function App () {
     } else {
       clearInterval(timer)
     }
+
     return () => clearInterval(timer)
   }, [state.startStop])
 
   useEffect(() => {
-    if (state.timeLeft !== 0) return
+    if (state.timeLeft !== 0)
+      return
+
     if (state.timerLabel === 'Session') {
       dispatch({ type: 'toggle-break' })
     } else {
       dispatch({ type: 'toggle-session' })
     }
+
     document.getElementById('beep').play()
   }, [state.timerLabel, state.timeLeft])
 
@@ -81,12 +86,12 @@ function App () {
       <h1>Pomodoro Clock</h1>
       <div className="flexbox">
         <BreakControl
-          length={state.breakLength}
-          onChange={handleChangeBreak}
+          breakLength={state.breakLength}
+          onChangeBreak={handleChangeBreak}
         />
         <SessionControl
-          length={state.sessionLength}
-          onChange={handleChangeSession}
+          sessionLength={state.sessionLength}
+          onChangeSession={handleChangeSession}
         />
       </div>
       <TimerControl
