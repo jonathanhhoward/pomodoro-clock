@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
+import BreakControl from './components/BreakControl'
 import ClockControl from './components/ClockControl'
 import reducer from './reducer'
 import formatSecondsAsMMSS from './formatSecondsAsMMSS'
@@ -75,31 +76,6 @@ function App () {
     document.getElementById('beep').load()
   }
 
-  const breakData = {
-    h2: {
-      id: 'break-label',
-      class: null,
-      text: 'Break Length'
-    },
-    div: {
-      id: 'break-length',
-      class: 'length',
-      text: state.breakLength
-    },
-    button1: {
-      id: 'break-decrement',
-      class: 'circle',
-      callback: handleChangeBreak,
-      text: '-'
-    },
-    button2: {
-      id: 'break-increment',
-      class: 'circle',
-      callback: handleChangeBreak,
-      text: '+'
-    }
-  }
-
   const sessionData = {
     h2: {
       id: 'session-label',
@@ -154,7 +130,10 @@ function App () {
     <div className="clock">
       <h1>Pomodoro Clock</h1>
       <div className="flexbox">
-        <ClockControl data={breakData}/>
+        <BreakControl
+          length={state.breakLength}
+          onChange={handleChangeBreak}
+        />
         <ClockControl data={sessionData}/>
       </div>
       <ClockControl data={timerData}/>
