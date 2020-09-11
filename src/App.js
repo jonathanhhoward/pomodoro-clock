@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react'
 import BreakControl from './components/BreakControl'
+import SessionControl from './components/SessionControl'
 import ClockControl from './components/ClockControl'
 import reducer from './reducer'
 import formatSecondsAsMMSS from './formatSecondsAsMMSS'
@@ -76,31 +77,6 @@ function App () {
     document.getElementById('beep').load()
   }
 
-  const sessionData = {
-    h2: {
-      id: 'session-label',
-      class: null,
-      text: 'Session Length'
-    },
-    div: {
-      id: 'session-length',
-      class: 'length',
-      text: state.sessionLength
-    },
-    button1: {
-      id: 'session-decrement',
-      class: 'circle',
-      callback: handleChangeSession,
-      text: '-'
-    },
-    button2: {
-      id: 'session-increment',
-      class: 'circle',
-      callback: handleChangeSession,
-      text: '+'
-    }
-  }
-
   const timerData = {
     h2: {
       id: 'timer-label',
@@ -134,7 +110,10 @@ function App () {
           length={state.breakLength}
           onChange={handleChangeBreak}
         />
-        <ClockControl data={sessionData}/>
+        <SessionControl
+          length={state.sessionLength}
+          onChange={handleChangeSession}
+        />
       </div>
       <ClockControl data={timerData}/>
       <audio id="beep" src={beepSound} preload="auto"/>
