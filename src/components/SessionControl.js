@@ -2,7 +2,7 @@ import React from 'react';
 import ClockControl from './ClockControl';
 
 function SessionControl({ state, dispatch }) {
-  function handleChangeSession(event) {
+  function handleSessionChange(event) {
     if (state.startStop === 'STOP') return;
 
     const action = event.target.id;
@@ -27,13 +27,13 @@ function SessionControl({ state, dispatch }) {
     button1: {
       id: 'session-decrement',
       class: 'circle',
-      callback: handleChangeSession,
+      callback: handleSessionChange,
       text: '-',
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
-      callback: handleChangeSession,
+      callback: handleSessionChange,
       text: '+',
     },
   };
