@@ -1,33 +1,33 @@
-import React from 'react'
-import ClockControl from './ClockControl'
+import React from 'react';
+import ClockControl from './ClockControl';
 
-function BreakControl ({ breakLength, onChangeBreak }) {
+function BreakControl({ breakLength, onChangeBreak }) {
   const breakData = {
     h2: {
       id: 'break-label',
       class: null,
-      text: 'Break Length'
+      text: 'Break Length',
     },
     div: {
       id: 'break-length',
       class: 'length',
-      text: breakLength
+      text: breakLength,
     },
     button1: {
       id: 'break-decrement',
       class: 'circle',
       callback: onChangeBreak,
-      text: '-'
+      text: '-',
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
       callback: onChangeBreak,
-      text: '+'
-    }
-  }
+      text: '+',
+    },
+  };
 
-  return <ClockControl data={breakData}/>
+  return <ClockControl data={breakData} />;
 }
 
-export default BreakControl
+export default BreakControl;

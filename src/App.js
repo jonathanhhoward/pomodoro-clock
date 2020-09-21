@@ -1,84 +1,77 @@
-import React, { useEffect, useReducer } from 'react'
-import BreakControl from './components/BreakControl'
-import SessionControl from './components/SessionControl'
-import TimerControl from './components/TimerControl'
-import reducer from './reducer'
-import beepSound from './beep.mp3'
-import './App.scss'
+import React, { useEffect, useReducer } from 'react';
+import BreakControl from './components/BreakControl';
+import SessionControl from './components/SessionControl';
+import TimerControl from './components/TimerControl';
+import reducer from './reducer';
+import beepSound from './beep.mp3';
+import './App.scss';
 
-function App () {
+function App() {
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
     timerLabel: 'Session',
     timeLeft: 25 * 60,
-    startStop: 'START'
-  }
+    startStop: 'START',
+  };
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    let timer = null
+    let timer = null;
 
     if (state.startStop === 'STOP') {
       timer = setInterval(() => {
-        dispatch({ type: 'countdown' })
-      }, 1000)
+        dispatch({ type: 'countdown' });
+      }, 1000);
     } else {
-      clearInterval(timer)
+      clearInterval(timer);
     }
 
-    return () => clearInterval(timer)
-  }, [state.startStop])
+    return () => clearInterval(timer);
+  }, [state.startStop]);
 
   useEffect(() => {
-    if (state.timeLeft !== 0)
-      return
+    if (state.timeLeft !== 0) return;
 
     if (state.timerLabel === 'Session') {
-      dispatch({ type: 'toggle-break' })
+      dispatch({ type: 'toggle-break' });
     } else {
-      dispatch({ type: 'toggle-session' })
+      dispatch({ type: 'toggle-session' });
     }
 
-    document.getElementById('beep').play()
-  }, [state.timerLabel, state.timeLeft])
+    document.getElementById('beep').play();
+  }, [state.timerLabel, state.timeLeft]);
 
-  function handleChangeBreak (event) {
-    if (state.startStop === 'STOP')
-      return
+  function handleChangeBreak(event) {
+    if (state.startStop === 'STOP') return;
 
-    const action = event.target.id
-    const LIMIT = action.includes('decrement') ? 1 : 60
-    if (state.breakLength === LIMIT)
-      return
+    const action = event.target.id;
+    const LIMIT = action.includes('decrement') ? 1 : 60;
+    if (state.breakLength === LIMIT) return;
 
-    dispatch({ type: action })
-    if (state.timerLabel === 'Break')
-      dispatch({ type: 'update-break' })
+    dispatch({ type: action });
+    if (state.timerLabel === 'Break') dispatch({ type: 'update-break' });
   }
 
-  function handleChangeSession (event) {
-    if (state.startStop === 'STOP')
-      return
+  function handleChangeSession(event) {
+    if (state.startStop === 'STOP') return;
 
-    const action = event.target.id
-    const LIMIT = action.includes('decrement') ? 1 : 60
-    if (state.sessionLength === LIMIT)
-      return
+    const action = event.target.id;
+    const LIMIT = action.includes('decrement') ? 1 : 60;
+    if (state.sessionLength === LIMIT) return;
 
-    dispatch({ type: action })
-    if (state.timerLabel === 'Session')
-      dispatch({ type: 'update-session' })
+    dispatch({ type: action });
+    if (state.timerLabel === 'Session') dispatch({ type: 'update-session' });
   }
 
-  function handleStartStop () {
-    dispatch({ type: 'toggle-startStop' })
+  function handleStartStop() {
+    dispatch({ type: 'toggle-startStop' });
   }
 
-  function handleReset () {
-    dispatch({ type: 'reset', payload: initialState })
-    document.getElementById('beep').load()
+  function handleReset() {
+    dispatch({ type: 'reset', payload: initialState });
+    document.getElementById('beep').load();
   }
 
   return (
@@ -101,9 +94,9 @@ function App () {
         onClickStartStop={handleStartStop}
         onClickReset={handleReset}
       />
-      <audio id="beep" src={beepSound} preload="auto"/>
+      <audio id="beep" src={beepSound} preload="auto" />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

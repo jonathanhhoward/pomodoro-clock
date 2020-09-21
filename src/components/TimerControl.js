@@ -1,40 +1,40 @@
-import React from 'react'
-import ClockControl from './ClockControl'
-import formatSecondsAsMMSS from '../formatSecondsAsMMSS'
+import React from 'react';
+import ClockControl from './ClockControl';
+import formatSecondsAsMMSS from '../formatSecondsAsMMSS';
 
-function TimerControl ({
+function TimerControl({
   timerLabel,
   timeLeft,
   startStop,
   onClickStartStop,
-  onClickReset
+  onClickReset,
 }) {
   const timerData = {
     h2: {
       id: 'timer-label',
       class: null,
-      text: timerLabel
+      text: timerLabel,
     },
     div: {
       id: 'time-left',
       class: 'time',
-      text: formatSecondsAsMMSS(timeLeft)
+      text: formatSecondsAsMMSS(timeLeft),
     },
     button1: {
       id: 'start_stop',
       class: 'pill',
       callback: onClickStartStop,
-      text: startStop
+      text: startStop,
     },
     button2: {
       id: 'reset',
       class: 'pill',
       callback: onClickReset,
-      text: 'RESET'
-    }
-  }
+      text: 'RESET',
+    },
+  };
 
-  return <ClockControl data={timerData}/>
+  return <ClockControl data={timerData} />;
 }
 
-export default TimerControl
+export default TimerControl;

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-function ClockControl ({ data }) {
-  const { h2, div, button1, button2 } = data
+function ClockControl({ data }) {
+  const { h2, div, button1, button2 } = data;
   return (
     <div className="ClockControl">
       <h2 id={h2.id} className={h2.class}>
@@ -25,7 +25,7 @@ function ClockControl ({ data }) {
         {button2.text}
       </button>
     </div>
-  )
+  );
 }
 
-export default ClockControl
+export default ClockControl;
