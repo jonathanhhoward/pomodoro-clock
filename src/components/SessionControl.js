@@ -1,7 +1,18 @@
 import React from 'react';
 import ClockControl from './ClockControl';
 
-function SessionControl({ sessionLength, onChangeSession }) {
+function SessionControl({ state, dispatch }) {
+  function handleChangeSession(event) {
+    if (state.startStop === 'STOP') return;
+
+    const action = event.target.id;
+    const LIMIT = action.includes('decrement') ? 1 : 60;
+    if (state.sessionLength === LIMIT) return;
+
+    dispatch({ type: action });
+    if (state.timerLabel === 'Session') dispatch({ type: 'update-session' });
+  }
+
   const sessionData = {
     h2: {
       id: 'session-label',
@@ -11,18 +22,18 @@ function SessionControl({ sessionLength, onChangeSession }) {
     div: {
       id: 'session-length',
       class: 'length',
-      text: sessionLength,
+      text: state.sessionLength,
     },
     button1: {
       id: 'session-decrement',
       class: 'circle',
-      callback: onChangeSession,
+      callback: handleChangeSession,
       text: '-',
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
-      callback: onChangeSession,
+      callback: handleChangeSession,
       text: '+',
     },
   };

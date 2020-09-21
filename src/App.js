@@ -43,17 +43,6 @@ function App() {
     document.getElementById('beep').play();
   }, [state.timerLabel, state.timeLeft]);
 
-  function handleChangeSession(event) {
-    if (state.startStop === 'STOP') return;
-
-    const action = event.target.id;
-    const LIMIT = action.includes('decrement') ? 1 : 60;
-    if (state.sessionLength === LIMIT) return;
-
-    dispatch({ type: action });
-    if (state.timerLabel === 'Session') dispatch({ type: 'update-session' });
-  }
-
   function handleStartStop() {
     dispatch({ type: 'toggle-startStop' });
   }
@@ -68,10 +57,7 @@ function App() {
       <h1>Pomodoro Clock</h1>
       <div className="flexbox">
         <BreakControl state={state} dispatch={dispatch} />
-        <SessionControl
-          sessionLength={state.sessionLength}
-          onChangeSession={handleChangeSession}
-        />
+        <SessionControl state={state} dispatch={dispatch} />
       </div>
       <TimerControl
         timerLabel={state.timerLabel}
