@@ -32,5 +32,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://jonathanhhoward.github.io/pomodoro-clock"
+  "homepage": "https://jonathanhhoward.github.io/pomodoro-clock",
+  "devDependencies": {
+    "prettier": "2.1.2"
+  }
 }
