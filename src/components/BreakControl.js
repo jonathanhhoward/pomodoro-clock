@@ -1,7 +1,18 @@
 import React from 'react';
 import ClockControl from './ClockControl';
 
-function BreakControl({ breakLength, onChangeBreak }) {
+function BreakControl({ state, dispatch }) {
+  function handleChangeBreak(event) {
+    if (state.startStop === 'STOP') return;
+
+    const action = event.target.id;
+    const LIMIT = action.includes('decrement') ? 1 : 60;
+    if (state.breakLength === LIMIT) return;
+
+    dispatch({ type: action });
+    if (state.timerLabel === 'Break') dispatch({ type: 'update-break' });
+  }
+
   const breakData = {
     h2: {
       id: 'break-label',
@@ -11,18 +22,18 @@ function BreakControl({ breakLength, onChangeBreak }) {
     div: {
       id: 'break-length',
       class: 'length',
-      text: breakLength,
+      text: state.breakLength,
     },
     button1: {
       id: 'break-decrement',
       class: 'circle',
-      callback: onChangeBreak,
+      callback: handleChangeBreak,
       text: '-',
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
-      callback: onChangeBreak,
+      callback: handleChangeBreak,
       text: '+',
     },
   };
