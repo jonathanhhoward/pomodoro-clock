@@ -13,7 +13,7 @@ function SessionControl({ state, dispatch }) {
     if (state.timerLabel === 'Session') dispatch({ type: 'update-session' });
   }
 
-  const sessionData = {
+  const sessionProps = {
     h2: {
       id: 'session-label',
       class: null,
@@ -38,7 +38,7 @@ function SessionControl({ state, dispatch }) {
     },
   };
 
-  return <ClockControl data={sessionData} />;
+  return <ClockControl {...sessionProps} />;
 }
 
 export default SessionControl;

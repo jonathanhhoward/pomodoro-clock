@@ -38,7 +38,7 @@ function TimerControl({ state, dispatch, initialState }) {
     document.getElementById('beep').load();
   }
 
-  const timerData = {
+  const timerProps = {
     h2: {
       id: 'timer-label',
       class: null,
@@ -63,7 +63,7 @@ function TimerControl({ state, dispatch, initialState }) {
     },
   };
 
-  return <ClockControl data={timerData} />;
+  return <ClockControl {...timerProps} />;
 }
 
 export default TimerControl;

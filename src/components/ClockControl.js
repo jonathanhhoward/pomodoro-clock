@@ -1,7 +1,6 @@
 import React from 'react';
 
-function ClockControl({ data }) {
-  const { h2, div, button1, button2 } = data;
+function ClockControl({ h2, div, button1, button2 }) {
   return (
     <div className="ClockControl">
       <h2 id={h2.id} className={h2.class}>

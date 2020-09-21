@@ -13,7 +13,7 @@ function BreakControl({ state, dispatch }) {
     if (state.timerLabel === 'Break') dispatch({ type: 'update-break' });
   }
 
-  const breakData = {
+  const breakProps = {
     h2: {
       id: 'break-label',
       class: null,
@@ -38,7 +38,7 @@ function BreakControl({ state, dispatch }) {
     },
   };
 
-  return <ClockControl data={breakData} />;
+  return <ClockControl {...breakProps} />;
 }
 
 export default BreakControl;
