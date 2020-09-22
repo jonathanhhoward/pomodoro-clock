@@ -10,7 +10,7 @@ function SessionControl({ state, dispatch }) {
     if (state.sessionLength === LIMIT) return;
 
     dispatch({ type: action });
-    if (state.timerLabel === 'Session') dispatch({ type: 'update-session' });
+    if (state.activeTimer === 'Session') dispatch({ type: 'update-session' });
   }
 
   const sessionProps = {

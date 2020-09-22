@@ -10,7 +10,7 @@ function BreakControl({ state, dispatch }) {
     if (state.breakLength === LIMIT) return;
 
     dispatch({ type: action });
-    if (state.timerLabel === 'Break') dispatch({ type: 'update-break' });
+    if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
   }
 
   const breakProps = {

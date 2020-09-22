@@ -10,7 +10,7 @@ function App() {
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
-    timerLabel: 'Session',
+    activeTimer: 'Session',
     timeLeft: 25 * 60,
     startStop: 'START',
   };

@@ -20,14 +20,14 @@ function TimerControl({ state, dispatch, initialState }) {
   useEffect(() => {
     if (state.timeLeft !== 0) return;
 
-    if (state.timerLabel === 'Session') {
+    if (state.activeTimer === 'Session') {
       dispatch({ type: 'toggle-break' });
     } else {
       dispatch({ type: 'toggle-session' });
     }
 
     document.getElementById('beep').play();
-  }, [state.timerLabel, state.timeLeft]);
+  }, [state.activeTimer, state.timeLeft]);
 
   function handleStartStop() {
     dispatch({ type: 'toggle-startStop' });
@@ -42,7 +42,7 @@ function TimerControl({ state, dispatch, initialState }) {
     h2: {
       id: 'timer-label',
       class: null,
-      text: state.timerLabel,
+      text: state.activeTimer,
     },
     div: {
       id: 'time-left',

@@ -6,7 +6,7 @@ function reducer(state, action) {
   return {
     sessionLength: sessionLengthReducer(state.sessionLength, action),
     breakLength: breakLengthReducer(state.breakLength, action),
-    timerLabel: timerLabelReducer(state.timerLabel, action),
+    activeTimer: activeTimerReducer(state.activeTimer, action),
     startStop: startStopReducer(state.startStop, action),
     timeLeft: timeLeftReducer(state, action),
   };
@@ -34,14 +34,14 @@ function breakLengthReducer(breakLength, action) {
   }
 }
 
-function timerLabelReducer(timerLabel, action) {
+function activeTimerReducer(activeTimer, action) {
   switch (action.type) {
     case 'toggle-session':
       return 'Session';
     case 'toggle-break':
       return 'Break';
     default:
-      return timerLabel;
+      return activeTimer;
   }
 }
 
