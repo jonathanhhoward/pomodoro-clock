@@ -29,11 +29,11 @@ function TimerControl({ state, dispatch, initialState }) {
     document.getElementById('beep').play();
   }, [state.activeTimer, state.timeLeft]);
 
-  function handleStartStop() {
+  function handleStartStopClick() {
     dispatch({ type: 'toggle-startStop' });
   }
 
-  function handleReset() {
+  function handleResetClick() {
     dispatch({ type: 'reset', payload: initialState });
     document.getElementById('beep').load();
   }
@@ -52,13 +52,13 @@ function TimerControl({ state, dispatch, initialState }) {
     button1: {
       id: 'start_stop',
       class: 'pill',
-      callback: handleStartStop,
+      callback: handleStartStopClick,
       text: state.startStop,
     },
     button2: {
       id: 'reset',
       class: 'pill',
-      callback: handleReset,
+      callback: handleResetClick,
       text: 'RESET',
     },
   };
