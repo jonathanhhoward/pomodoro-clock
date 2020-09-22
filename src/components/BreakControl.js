@@ -2,13 +2,8 @@ import React from 'react';
 import ClockControl from './ClockControl';
 
 function BreakControl({ state, dispatch }) {
-  function handleBreakChange(event) {
-    if (state.startStop === 'STOP') return;
-
+  function handleClick(event) {
     const action = event.target.id;
-    const LIMIT = action.includes('decrement') ? 1 : 60;
-    if (state.breakLength === LIMIT) return;
-
     dispatch({ type: action });
     if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
   }
@@ -27,13 +22,15 @@ function BreakControl({ state, dispatch }) {
     button1: {
       id: 'break-decrement',
       class: 'circle',
-      callback: handleBreakChange,
+      callback: handleClick,
+      disabled: state.startStop === 'STOP' || state.breakLength === 1,
       text: '-',
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
-      callback: handleBreakChange,
+      callback: handleClick,
+      disabled: state.startStop === 'STOP' || state.breakLength === 60,
       text: '+',
     },
   };

@@ -53,12 +53,14 @@ function TimerControl({ state, dispatch, initialState }) {
       id: 'start_stop',
       class: 'pill',
       callback: handleStartStopClick,
+      disabled: false,
       text: state.startStop,
     },
     button2: {
       id: 'reset',
       class: 'pill',
       callback: handleResetClick,
+      disabled: false,
       text: 'RESET',
     },
   };
