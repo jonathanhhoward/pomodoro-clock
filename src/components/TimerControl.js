@@ -5,14 +5,14 @@ import formatSecondsAsMMSS from '../formatSecondsAsMMSS';
 function TimerControl({ state, dispatch, initialState }) {
   useEffect(
     function updateSessionTimer() {
-      if (state.activeTimer === 'Session') dispatch({ type: 'update-session' });
+      if (state.timerType === 'Session') dispatch({ type: 'update-session' });
     },
     [state.sessionLength]
   );
 
   useEffect(
     function updateBreakTimer() {
-      if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
+      if (state.timerType === 'Break') dispatch({ type: 'update-break' });
     },
     [state.breakLength]
   );
@@ -21,7 +21,7 @@ function TimerControl({ state, dispatch, initialState }) {
     function startStopTimer() {
       let timer = null;
 
-      if (state.startStop === 'STOP') {
+      if (state.timerStatus === 'STARTED') {
         timer = setInterval(() => {
           dispatch({ type: 'countdown' });
         }, 1000);
@@ -31,14 +31,14 @@ function TimerControl({ state, dispatch, initialState }) {
 
       return () => clearInterval(timer);
     },
-    [state.startStop]
+    [state.timerStatus]
   );
 
   useEffect(
     function toggleTimer() {
-      if (state.timeLeft !== 0) return;
+      if (state.timerLength !== 0) return;
 
-      if (state.activeTimer === 'Session') {
+      if (state.timerType === 'Session') {
         dispatch({ type: 'toggle-break' });
       } else {
         dispatch({ type: 'toggle-session' });
@@ -46,7 +46,7 @@ function TimerControl({ state, dispatch, initialState }) {
 
       document.getElementById('beep').play();
     },
-    [state.timeLeft]
+    [state.timerLength]
   );
 
   function handleResetClick() {
@@ -58,19 +58,19 @@ function TimerControl({ state, dispatch, initialState }) {
     h2: {
       id: 'timer-label',
       class: null,
-      text: state.activeTimer,
+      text: state.timerType,
     },
     div: {
       id: 'time-left',
       class: 'time',
-      text: formatSecondsAsMMSS(state.timeLeft),
+      text: formatSecondsAsMMSS(state.timerLength),
     },
     button1: {
       id: 'start_stop',
       class: 'pill',
-      callback: () => dispatch({ type: 'toggle-startStop' }),
+      callback: () => dispatch({ type: 'toggle-timerStatus' }),
       disabled: false,
-      text: state.startStop,
+      text: state.timerStatus === 'STOPPED' ? 'START' : 'STOP',
     },
     button2: {
       id: 'reset',

@@ -10,9 +10,9 @@ function App() {
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
-    activeTimer: 'Session',
-    timeLeft: 25 * 60,
-    startStop: 'START',
+    timerType: 'Session',
+    timerLength: 25 * 60,
+    timerStatus: 'STOPPED',
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);

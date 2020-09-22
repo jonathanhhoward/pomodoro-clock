@@ -17,14 +17,14 @@ function BreakControl({ state, dispatch }) {
       id: 'break-decrement',
       class: 'circle',
       callback: () => dispatch({ type: 'break-decrement' }),
-      disabled: state.startStop === 'STOP' || state.breakLength === 1,
+      disabled: state.timerStatus === 'STARTED' || state.breakLength === 1,
       text: '-',
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
       callback: () => dispatch({ type: 'break-increment' }),
-      disabled: state.startStop === 'STOP' || state.breakLength === 60,
+      disabled: state.timerStatus === 'STARTED' || state.breakLength === 60,
       text: '+',
     },
   };
