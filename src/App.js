@@ -10,8 +10,8 @@ function App() {
   const initialState = {
     breakLength: 5,
     sessionLength: 25,
+    timerLength: 1500,
     timerType: 'Session',
-    timerLength: 25 * 60,
     timerStatus: 'STOPPED',
   };
 

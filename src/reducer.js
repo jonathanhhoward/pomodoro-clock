@@ -6,9 +6,9 @@ function reducer(state, action) {
   return {
     sessionLength: sessionLengthReducer(state.sessionLength, action),
     breakLength: breakLengthReducer(state.breakLength, action),
+    timerLength: timerLengthReducer(state, action),
     timerType: timerTypeReducer(state.timerType, action),
     timerStatus: timerStatusReducer(state.timerStatus, action),
-    timerLength: timerLengthReducer(state, action),
   };
 }
 
@@ -34,6 +34,21 @@ function breakLengthReducer(breakLength, action) {
   }
 }
 
+function timerLengthReducer(state, action) {
+  switch (action.type) {
+    case 'update-session':
+    case 'toggle-session':
+      return state.sessionLength * 60;
+    case 'update-break':
+    case 'toggle-break':
+      return state.breakLength * 60;
+    case 'countdown':
+      return state.timerLength - 1;
+    default:
+      return state.timerLength;
+  }
+}
+
 function timerTypeReducer(timerType, action) {
   switch (action.type) {
     case 'toggle-session':
@@ -51,21 +66,6 @@ function timerStatusReducer(timerStatus, action) {
       return timerStatus === 'STOPPED' ? 'STARTED' : 'STOPPED';
     default:
       return timerStatus;
-  }
-}
-
-function timerLengthReducer(state, action) {
-  switch (action.type) {
-    case 'update-session':
-    case 'toggle-session':
-      return state.sessionLength * 60;
-    case 'update-break':
-    case 'toggle-break':
-      return state.breakLength * 60;
-    case 'countdown':
-      return state.timerLength - 1;
-    default:
-      return state.timerLength;
   }
 }
 
