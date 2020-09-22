@@ -49,10 +49,6 @@ function TimerControl({ state, dispatch, initialState }) {
     [state.timeLeft]
   );
 
-  function handleStartStopClick() {
-    dispatch({ type: 'toggle-startStop' });
-  }
-
   function handleResetClick() {
     dispatch({ type: 'reset', payload: initialState });
     document.getElementById('beep').load();
@@ -72,7 +68,7 @@ function TimerControl({ state, dispatch, initialState }) {
     button1: {
       id: 'start_stop',
       class: 'pill',
-      callback: handleStartStopClick,
+      callback: () => dispatch({ type: 'toggle-startStop' }),
       disabled: false,
       text: state.startStop,
     },
