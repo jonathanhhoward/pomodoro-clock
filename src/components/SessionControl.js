@@ -5,7 +5,6 @@ function SessionControl({ state, dispatch }) {
   function handleClick(event) {
     const action = event.target.id;
     dispatch({ type: action });
-    if (state.activeTimer === 'Session') dispatch({ type: 'update-session' });
   }
 
   const sessionProps = {

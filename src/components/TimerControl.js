@@ -4,6 +4,14 @@ import formatSecondsAsMMSS from '../formatSecondsAsMMSS';
 
 function TimerControl({ state, dispatch, initialState }) {
   useEffect(() => {
+    if (state.activeTimer === 'Session') dispatch({ type: 'update-session' });
+  }, [state.sessionLength]);
+
+  useEffect(() => {
+    if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
+  }, [state.breakLength]);
+
+  useEffect(() => {
     let timer = null;
 
     if (state.startStop === 'STOP') {

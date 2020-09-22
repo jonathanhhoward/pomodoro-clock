@@ -5,7 +5,6 @@ function BreakControl({ state, dispatch }) {
   function handleClick(event) {
     const action = event.target.id;
     dispatch({ type: action });
-    if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
   }
 
   const breakProps = {
