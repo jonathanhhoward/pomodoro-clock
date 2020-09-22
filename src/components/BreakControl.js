@@ -2,11 +2,6 @@ import React from 'react';
 import ClockControl from './ClockControl';
 
 function BreakControl({ state, dispatch }) {
-  function handleClick(event) {
-    const action = event.target.id;
-    dispatch({ type: action });
-  }
-
   const breakProps = {
     h2: {
       id: 'break-label',
@@ -21,14 +16,14 @@ function BreakControl({ state, dispatch }) {
     button1: {
       id: 'break-decrement',
       class: 'circle',
-      callback: handleClick,
+      callback: () => dispatch({ type: 'break-decrement' }),
       disabled: state.startStop === 'STOP' || state.breakLength === 1,
       text: '-',
     },
     button2: {
       id: 'break-increment',
       class: 'circle',
-      callback: handleClick,
+      callback: () => dispatch({ type: 'break-increment' }),
       disabled: state.startStop === 'STOP' || state.breakLength === 60,
       text: '+',
     },

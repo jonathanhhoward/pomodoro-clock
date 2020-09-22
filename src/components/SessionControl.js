@@ -2,11 +2,6 @@ import React from 'react';
 import ClockControl from './ClockControl';
 
 function SessionControl({ state, dispatch }) {
-  function handleClick(event) {
-    const action = event.target.id;
-    dispatch({ type: action });
-  }
-
   const sessionProps = {
     h2: {
       id: 'session-label',
@@ -21,14 +16,14 @@ function SessionControl({ state, dispatch }) {
     button1: {
       id: 'session-decrement',
       class: 'circle',
-      callback: handleClick,
+      callback: () => dispatch({ type: 'session-decrement' }),
       disabled: state.startStop === 'STOP' || state.sessionLength === 1,
       text: '-',
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
-      callback: handleClick,
+      callback: () => dispatch({ type: 'session-increment' }),
       disabled: state.startStop === 'STOP' || state.sessionLength === 60,
       text: '+',
     },
