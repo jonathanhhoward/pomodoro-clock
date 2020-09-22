@@ -3,39 +3,51 @@ import ClockControl from './ClockControl';
 import formatSecondsAsMMSS from '../formatSecondsAsMMSS';
 
 function TimerControl({ state, dispatch, initialState }) {
-  useEffect(() => {
-    if (state.activeTimer === 'Session') dispatch({ type: 'update-session' });
-  }, [state.sessionLength]);
+  useEffect(
+    function updateSessionTimer() {
+      if (state.activeTimer === 'Session') dispatch({ type: 'update-session' });
+    },
+    [state.sessionLength]
+  );
 
-  useEffect(() => {
-    if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
-  }, [state.breakLength]);
+  useEffect(
+    function updateBreakTimer() {
+      if (state.activeTimer === 'Break') dispatch({ type: 'update-break' });
+    },
+    [state.breakLength]
+  );
 
-  useEffect(() => {
-    let timer = null;
+  useEffect(
+    function startStopTimer() {
+      let timer = null;
 
-    if (state.startStop === 'STOP') {
-      timer = setInterval(() => {
-        dispatch({ type: 'countdown' });
-      }, 1000);
-    } else {
-      clearInterval(timer);
-    }
+      if (state.startStop === 'STOP') {
+        timer = setInterval(() => {
+          dispatch({ type: 'countdown' });
+        }, 1000);
+      } else {
+        clearInterval(timer);
+      }
 
-    return () => clearInterval(timer);
-  }, [state.startStop]);
+      return () => clearInterval(timer);
+    },
+    [state.startStop]
+  );
 
-  useEffect(() => {
-    if (state.timeLeft !== 0) return;
+  useEffect(
+    function toggleTimer() {
+      if (state.timeLeft !== 0) return;
 
-    if (state.activeTimer === 'Session') {
-      dispatch({ type: 'toggle-break' });
-    } else {
-      dispatch({ type: 'toggle-session' });
-    }
+      if (state.activeTimer === 'Session') {
+        dispatch({ type: 'toggle-break' });
+      } else {
+        dispatch({ type: 'toggle-session' });
+      }
 
-    document.getElementById('beep').play();
-  }, [state.activeTimer, state.timeLeft]);
+      document.getElementById('beep').play();
+    },
+    [state.activeTimer, state.timeLeft]
+  );
 
   function handleStartStopClick() {
     dispatch({ type: 'toggle-startStop' });
