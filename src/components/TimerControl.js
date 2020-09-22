@@ -46,7 +46,7 @@ function TimerControl({ state, dispatch, initialState }) {
 
       document.getElementById('beep').play();
     },
-    [state.activeTimer, state.timeLeft]
+    [state.timeLeft]
   );
 
   function handleStartStopClick() {
