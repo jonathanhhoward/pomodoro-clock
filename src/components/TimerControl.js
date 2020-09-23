@@ -39,9 +39,15 @@ function TimerControl({ state, dispatch, initialState }) {
       if (state.timerLength !== 0) return;
 
       if (state.timerType === 'Session') {
-        dispatch({ type: 'toggle-break' });
+        dispatch({
+          type: 'toggle-timerType',
+          payload: state.breakLength * 60,
+        });
       } else {
-        dispatch({ type: 'toggle-session' });
+        dispatch({
+          type: 'toggle-timerType',
+          payload: state.sessionLength * 60,
+        });
       }
 
       document.getElementById('beep').play();
