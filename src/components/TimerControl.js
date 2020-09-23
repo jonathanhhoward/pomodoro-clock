@@ -13,25 +13,22 @@ function TimerControl({ state, dispatch, initialState }) {
             : state.breakLength * 60,
       });
     },
-    [state.sessionLength, state.breakLength]
+    [state.timerType, state.sessionLength, state.breakLength, dispatch]
   );
 
-  useEffect(
-    function switchTimerType() {
-      if (state.timerLength !== 0) return;
+  useEffect(function switchTimerType() {
+    if (state.timerLength !== 0) return;
 
-      dispatch({
-        type: 'timer-ended',
-        payload:
-          state.timerType === 'Session'
-            ? state.breakLength * 60
-            : state.sessionLength * 60,
-      });
+    dispatch({
+      type: 'timer-ended',
+      payload:
+        state.timerType === 'Session'
+          ? state.breakLength * 60
+          : state.sessionLength * 60,
+    });
 
-      document.getElementById('beep').play();
-    },
-    [state.timerLength]
-  );
+    document.getElementById('beep').play();
+  });
 
   useEffect(
     function startStopTimer() {
@@ -47,7 +44,7 @@ function TimerControl({ state, dispatch, initialState }) {
 
       return () => clearInterval(timer);
     },
-    [state.timerStatus]
+    [state.timerStatus, dispatch]
   );
 
   function handleStartStopClick({ target }) {
