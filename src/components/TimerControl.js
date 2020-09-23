@@ -4,17 +4,16 @@ import formatSecondsAsMMSS from '../formatSecondsAsMMSS';
 
 function TimerControl({ state, dispatch, initialState }) {
   useEffect(
-    function updateSessionTimer() {
-      if (state.timerType === 'Session') dispatch({ type: 'update-session' });
+    function updateTimerLength() {
+      dispatch({
+        type: 'update-timerLength',
+        payload:
+          state.timerType === 'Session'
+            ? state.sessionLength * 60
+            : state.breakLength * 60,
+      });
     },
-    [state.sessionLength]
-  );
-
-  useEffect(
-    function updateBreakTimer() {
-      if (state.timerType === 'Break') dispatch({ type: 'update-break' });
-    },
-    [state.breakLength]
+    [state.sessionLength, state.breakLength]
   );
 
   useEffect(

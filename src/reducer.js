@@ -34,10 +34,7 @@ function breakLengthReducer(breakLength, action) {
 
 function timerLengthReducer(state, action) {
   switch (action.type) {
-    case 'update-session':
-      return state.sessionLength * 60;
-    case 'update-break':
-      return state.breakLength * 60;
+    case 'update-timerLength':
     case 'toggle-timerType':
       return action.payload;
     case 'countdown':
