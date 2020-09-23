@@ -1,7 +1,5 @@
 function reducer(state, action) {
-  if (action.type === 'reset') {
-    return action.payload;
-  }
+  if (action.type === 'reset') return action.payload;
 
   return {
     sessionLength: sessionLengthReducer(state.sessionLength, action),
