@@ -17,23 +17,6 @@ function TimerControl({ state, dispatch, initialState }) {
   );
 
   useEffect(
-    function startStopTimer() {
-      let timer = null;
-
-      if (state.timerStatus === 'STARTED') {
-        timer = setInterval(() => {
-          dispatch({ type: 'countdown' });
-        }, 1000);
-      } else {
-        clearInterval(timer);
-      }
-
-      return () => clearInterval(timer);
-    },
-    [state.timerStatus]
-  );
-
-  useEffect(
     function toggleTimerType() {
       if (state.timerLength !== 0) return;
 
@@ -48,6 +31,23 @@ function TimerControl({ state, dispatch, initialState }) {
       document.getElementById('beep').play();
     },
     [state.timerLength]
+  );
+
+  useEffect(
+    function startStopTimer() {
+      let timer = null;
+
+      if (state.timerStatus === 'STARTED') {
+        timer = setInterval(() => {
+          dispatch({ type: 'countdown' });
+        }, 1000);
+      } else {
+        clearInterval(timer);
+      }
+
+      return () => clearInterval(timer);
+    },
+    [state.timerStatus]
   );
 
   function handleResetClick() {
