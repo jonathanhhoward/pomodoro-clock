@@ -1,8 +1,10 @@
-$primary-color: #333333;
-$secondary-color: cadetblue;
+@import '~fontsource-roboto';
+
+$primary-color: #34495e;
+$secondary-color: #ebedef;
 
 html {
-  font-size: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
