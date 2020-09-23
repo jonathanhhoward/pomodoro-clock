@@ -34,20 +34,16 @@ function TimerControl({ state, dispatch, initialState }) {
   );
 
   useEffect(
-    function toggleTimer() {
+    function toggleTimerType() {
       if (state.timerLength !== 0) return;
 
-      if (state.timerType === 'Session') {
-        dispatch({
-          type: 'toggle-timerType',
-          payload: state.breakLength * 60,
-        });
-      } else {
-        dispatch({
-          type: 'toggle-timerType',
-          payload: state.sessionLength * 60,
-        });
-      }
+      dispatch({
+        type: 'toggle-timerType',
+        payload:
+          state.timerType === 'Session'
+            ? state.breakLength * 60
+            : state.sessionLength * 60,
+      });
 
       document.getElementById('beep').play();
     },
