@@ -4,7 +4,7 @@ function reducer(state, action) {
   return {
     sessionLength: sessionLengthReducer(state.sessionLength, action),
     breakLength: breakLengthReducer(state.breakLength, action),
-    timerLength: timerLengthReducer(state, action),
+    timerLength: timerLengthReducer(state.timerLength, action),
     timerType: timerTypeReducer(state.timerType, action),
     timerStatus: timerStatusReducer(state.timerStatus, action),
   };
@@ -32,15 +32,15 @@ function breakLengthReducer(breakLength, action) {
   }
 }
 
-function timerLengthReducer(state, action) {
+function timerLengthReducer(timerLength, action) {
   switch (action.type) {
     case 'update-timerLength':
     case 'toggle-timerType':
       return action.payload;
     case 'countdown':
-      return state.timerLength - 1;
+      return timerLength - 1;
     default:
-      return state.timerLength;
+      return timerLength;
   }
 }
 
