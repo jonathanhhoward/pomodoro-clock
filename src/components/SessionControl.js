@@ -16,14 +16,14 @@ function SessionControl({ state, dispatch }) {
     button1: {
       id: 'session-decrement',
       class: 'circle',
-      callback: () => dispatch({ type: 'session-decrement' }),
+      callback: () => dispatch({ type: 'sessionLength-reduced' }),
       disabled: state.timerStatus === 'STARTED' || state.sessionLength === 1,
       text: '-',
     },
     button2: {
       id: 'session-increment',
       class: 'circle',
-      callback: () => dispatch({ type: 'session-increment' }),
+      callback: () => dispatch({ type: 'sessionLength-increased' }),
       disabled: state.timerStatus === 'STARTED' || state.sessionLength === 60,
       text: '+',
     },

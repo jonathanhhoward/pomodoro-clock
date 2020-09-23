@@ -12,9 +12,9 @@ function reducer(state, action) {
 
 function sessionLengthReducer(sessionLength, action) {
   switch (action.type) {
-    case 'session-decrement':
+    case 'sessionLength-reduced':
       return sessionLength - 1;
-    case 'session-increment':
+    case 'sessionLength-increased':
       return sessionLength + 1;
     default:
       return sessionLength;
@@ -23,9 +23,9 @@ function sessionLengthReducer(sessionLength, action) {
 
 function breakLengthReducer(breakLength, action) {
   switch (action.type) {
-    case 'break-decrement':
+    case 'breakLength-reduced':
       return breakLength - 1;
-    case 'break-increment':
+    case 'breakLength-increased':
       return breakLength + 1;
     default:
       return breakLength;
@@ -34,8 +34,8 @@ function breakLengthReducer(breakLength, action) {
 
 function timerLengthReducer(timerLength, action) {
   switch (action.type) {
-    case 'update-timerLength':
-    case 'toggle-timerType':
+    case 'timerLength-changed':
+    case 'timer-ended':
       return action.payload;
     case 'countdown':
       return timerLength - 1;
@@ -46,7 +46,7 @@ function timerLengthReducer(timerLength, action) {
 
 function timerTypeReducer(timerType, action) {
   switch (action.type) {
-    case 'toggle-timerType':
+    case 'timer-ended':
       return timerType === 'Session' ? 'Break' : 'Session';
     default:
       return timerType;
@@ -55,8 +55,10 @@ function timerTypeReducer(timerType, action) {
 
 function timerStatusReducer(timerStatus, action) {
   switch (action.type) {
-    case 'toggle-timerStatus':
-      return timerStatus === 'STOPPED' ? 'STARTED' : 'STOPPED';
+    case 'timer-started':
+      return 'STARTED';
+    case 'timer-stopped':
+      return 'STOPPED';
     default:
       return timerStatus;
   }

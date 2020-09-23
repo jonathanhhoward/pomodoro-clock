@@ -6,7 +6,7 @@ function TimerControl({ state, dispatch, initialState }) {
   useEffect(
     function updateTimerLength() {
       dispatch({
-        type: 'update-timerLength',
+        type: 'timerLength-changed',
         payload:
           state.timerType === 'Session'
             ? state.sessionLength * 60
@@ -17,11 +17,11 @@ function TimerControl({ state, dispatch, initialState }) {
   );
 
   useEffect(
-    function toggleTimerType() {
+    function switchTimerType() {
       if (state.timerLength !== 0) return;
 
       dispatch({
-        type: 'toggle-timerType',
+        type: 'timer-ended',
         payload:
           state.timerType === 'Session'
             ? state.breakLength * 60
@@ -50,6 +50,12 @@ function TimerControl({ state, dispatch, initialState }) {
     [state.timerStatus]
   );
 
+  function handleStartStopClick({ target }) {
+    dispatch({
+      type: target.textContent === 'START' ? 'timer-started' : 'timer-stopped',
+    });
+  }
+
   function handleResetClick() {
     dispatch({ type: 'reset', payload: initialState });
     document.getElementById('beep').load();
@@ -69,7 +75,7 @@ function TimerControl({ state, dispatch, initialState }) {
     button1: {
       id: 'start_stop',
       class: 'pill',
-      callback: () => dispatch({ type: 'toggle-timerStatus' }),
+      callback: handleStartStopClick,
       disabled: false,
       text: state.timerStatus === 'STOPPED' ? 'START' : 'STOP',
     },
