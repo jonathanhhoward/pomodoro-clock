@@ -1,5 +1,13 @@
 # Pomodoro Clock
 
-This is my solution to the Front End Libraries project 25 + 5 Clock for freeCodeCamp. Click [here](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-25--5-clock) to see the project description. Click [here](https://jonathanhhoward.github.io/pomodoro-clock) to see it live.
+This is my solution to the Front End Libraries project 25 + 5 Clock for freeCodeCamp.
+
+## Links
+
+[Project Description](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-25--5-clock)
+
+[Live View](https://jonathanhhoward.github.io/pomodoro-clock)
+
+## License
 
 &copy; Jonathan Howard 2020
